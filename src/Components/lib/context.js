@@ -1,3 +1,0 @@
-const contextKey = {}
-
-export { contextKey }
