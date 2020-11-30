@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run lint
       - run: npm run build
 
