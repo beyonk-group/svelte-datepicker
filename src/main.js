@@ -1,6 +1,10 @@
 import { polyfill } from 'es6-object-assign'
 
-import SvelteCalendar from './Components/Datepicker.svelte'
+import { CalendarStyle } from './calendar-style.js'
+import SvelteCalendar from './components/DatePicker.svelte'
 polyfill()
 
-export default SvelteCalendar
+export {
+  CalendarStyle,
+  SvelteCalendar
+}

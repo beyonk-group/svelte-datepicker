@@ -1,0 +1,45 @@
+import { writable } from 'svelte/store'
+import dayjs from 'dayjs/esm'
+
+function format (h, m) {
+  return [
+    String(h).padStart(2, '0'),
+    String(m).padStart(2, '0')
+  ].join(':')
+}
+
+function createStore (date) {
+  const time = writable(dayjs(date).format('HH:mm'))
+
+  function increment (segment) {
+    time.update(t => {
+      let [ h, m ] = t.split(':')
+      if (segment === 'hour' && h < 23) { ++h }
+      if (segment === 'minute' && m < 59) { ++m }
+      return format(h, m)
+    })
+  }
+
+  function decrement (segment) {
+    time.update(t => {
+      let [ h, m ] = t.split(':')
+      if (segment === 'hour' && h > 0) { --h }
+      if (segment === 'minute' && m > 0) { --m }
+      return format(h, m)
+    })
+  }
+
+  function set (t) {
+    time.set(t)
+  }
+  return {
+    increment,
+    decrement,
+    time,
+    set
+  }
+}
+
+export {
+  createStore
+}
