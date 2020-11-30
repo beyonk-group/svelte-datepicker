@@ -19,7 +19,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run lint
-      - run: npm run build
 
   # publish-npm:
   #   if: startsWith(github.ref, 'refs/tags/v')
