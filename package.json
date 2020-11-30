@@ -1,7 +1,7 @@
 {
   "name": "@beyonk/svelte-mapbox",
   "svelte": "src/main.js",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "license": "MIT",
   "scripts": {
     "dev": "snowpack dev",
