@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "snowpack dev",
-    "build": "snowpack build && mv build docs",
+    "build": "snowpack build && rm -rf docs && mv build docs",
     "lint": "eslint .",
     "test": "web-test-runner \"src/**/*.test.js\""
   },
