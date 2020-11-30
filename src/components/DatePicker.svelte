@@ -51,7 +51,7 @@
     choices,
     months,
     pickStartDate,
-    pickEndDate, 
+    pickEndDate,
     pickStartTime,
     pickEndTime,
     destroy

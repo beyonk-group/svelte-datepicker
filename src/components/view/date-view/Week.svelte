@@ -31,8 +31,9 @@
       class:part-of-range={
         config.isRangePicker &&
           (
-            isStart && isDateBetweenSelected($date, $selectedEndDate, day.date)
-            || !isStart && isDateBetweenSelected($selectedStartDate, $date, day.date)
+            /* eslint-disable no-mixed-operators */
+            isStart && isDateBetweenSelected($date, $selectedEndDate, day.date) ||
+            !isStart && isDateBetweenSelected($selectedStartDate, $date, day.date)
           )}
       class:is-today={day.isToday}
       class:is-disabled={!day.selectable}

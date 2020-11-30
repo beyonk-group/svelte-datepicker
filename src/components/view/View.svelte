@@ -25,7 +25,7 @@
   onMount(() => {
     return choices.subscribe(({ allDatesChosen, allTimesChosen }) => {
       if (!allDatesChosen) {
-        component = DateView 
+        component = DateView
       } else if (allDatesChosen && !allTimesChosen) {
         component = TimeView
       } else if (allDatesChosen && allTimesChosen) {

@@ -29,8 +29,11 @@
     if (!$isOpen) return
     let el = evt.target
     do {
-      if (el === popover) return
-    } while (el = el.parentNode)
+      if (el === popover) {
+        return
+      }
+      el = el.parentNode
+    } while (el)
     close()
   }
 

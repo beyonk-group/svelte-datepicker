@@ -57,7 +57,7 @@ function timeInput (node, store) {
 
   function isInvalidDigit (digit) {
     const tooManyDigits = time.length > 4
-    const invalidFirstDigit = time.length === 0 && ![0,1,2].includes(digit)
+    const invalidFirstDigit = time.length === 0 && ![ 0, 1, 2 ].includes(digit)
     const invalidSecondDigit = time.length === 1 && time[0] === 2 && digit > 3
     const invalidThirdDigit = time.length === 3 && digit > 5
     return tooManyDigits || invalidFirstDigit || invalidSecondDigit || invalidThirdDigit

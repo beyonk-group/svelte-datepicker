@@ -158,7 +158,7 @@
   import './style.css'
 
   import DatePicker from './components/DatePicker.svelte'
-import dayjs from 'dayjs/esm';
+import dayjs from 'dayjs/esm'
 </script>
 
 <style>
