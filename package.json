@@ -1,5 +1,5 @@
 {
-  "name": "@beyonk/svelte-mapbox",
+  "name": "@beyonk/svelte-datepicker",
   "svelte": "src/main.js",
   "version": "3.0.0",
   "license": "MIT",
