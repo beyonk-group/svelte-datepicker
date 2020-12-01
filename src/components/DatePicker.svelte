@@ -1,5 +1,6 @@
 <script>
   import Popover from './Popover.svelte'
+  import dayjs from 'dayjs/esm'
   import { contextKey, setup } from './lib/context'
   import { createEventDispatcher, setContext, getContext, onDestroy } from 'svelte'
   import { CalendarStyle } from '../calendar-style.js'
@@ -9,14 +10,14 @@
   export let range = false
   export let placeholder = 'Choose Date'
   export let format = 'DD / MM / YYYY'
-  export let start = new Date(new Date().getFullYear() - 1, new Date().getMonth(), new Date().getDate())
-  export let end = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate())
+  export let start = dayjs().subtract(1, 'year').toDate()
+  export let end = dayjs().add(1, 'year').toDate()
   export let dateChosen = false
   export let trigger = null
   export let selectableCallback = null
   export let weekStart = 0
   export let styling = new CalendarStyle()
-  export let selected = range ? [ new Date(), new Date() ] : [ new Date() ]
+  export let selected = range ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
   export let closeOnFocusLoss = true
   export let time = false
   export let morning = 7
@@ -58,7 +59,10 @@
   } = getContext(contextKey)
 
   setContext(startContextKey, createViewContext(true, selectedStartDate, months, config))
-  setContext(endContextKey, createViewContext(false, selectedEndDate, months, config))
+
+  if (config.isRangePicker) {
+    setContext(endContextKey, createViewContext(false, selectedEndDate, months, config))
+  }
 
   $: dateChosen = $choices.isDateChosen
 

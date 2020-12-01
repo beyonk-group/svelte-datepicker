@@ -1,5 +1,6 @@
 import { derived, get, writable } from 'svelte/store'
 import { createFormatter } from './formatter.js'
+import dayjs from 'dayjs/esm'
 
 const contextKey = {}
 
@@ -36,13 +37,27 @@ function createState (config) {
   }
 }
 
+function moveDateWithinAllowedRange (date, config) {
+  const isOutsideRange = (
+    date.getTime() < config.start.getTime() ||
+    date.getTime() > config.end.getTime()
+  )
+
+  if (isOutsideRange) {
+    console.warn('Provided date', dayjs(date).format(), 'is outside allowed range', dayjs(config.start).format(), 'to', dayjs(config.end).format())
+    return config.start
+  }
+
+  return date
+}
+
 function setup (selected, config) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
   const months = getMonths(config.start, config.end, config.selectableCallback, config.weekStart)
   const [ preSelectedStart, preSelectedEnd ] = Array.isArray(selected) ? selected : [ selected, null ]
-  const givenDate = (preSelectedStart.getTime() < config.start.getTime() || preSelectedStart.getTime() > config.end.getTime()) ? config.start : preSelectedStart
+  const givenDate = moveDateWithinAllowedRange(preSelectedStart, config)
   const selectedStartDate = writable(givenDate)
   const selectedEndDate = writable(preSelectedEnd)
 
