@@ -35,7 +35,7 @@ jobs:
       - name: Deploy docs
         run: |
           npm run build
-          cd docs
+          cd build
           npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
         env:
           NOW_PROJECT_ID: 'prj_1kSWQ4j4fKqpjLgCiqAydPBQPlmB'
