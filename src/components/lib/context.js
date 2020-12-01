@@ -1,4 +1,4 @@
-import { get, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 import DateView from '../view/date-view/DateView.svelte'
 import { createFormatter } from './formatter.js'
 import dayjs from 'dayjs/esm'

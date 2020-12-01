@@ -15,11 +15,13 @@ This is a near total rewrite of the excellent [Svelte Calendar](https://github.c
 * Better Responsiveness
 * Improved theming
 * Context-aware theming
+* Toolbar to avoid awkward bindings
 
 Roadmap:
 
 * Re-introduce Keyboard Support
 * Add code-samples to docs
+* Add legend for keyboard shortcuts [h for Help]
 
 ## Usage
 

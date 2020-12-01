@@ -36,12 +36,8 @@
       } else {
         finalise()
       }
-      return
-    }
-
-    if ($component === TimeView) {
+    } else if ($component === TimeView) {
       finalise()
-      return
     }
   }
 </script>
