@@ -19,6 +19,7 @@ This is a near total rewrite of the excellent [Svelte Calendar](https://github.c
 Roadmap:
 
 * Re-introduce Keyboard Support
+* Add code-samples to docs
 
 ## Usage
 

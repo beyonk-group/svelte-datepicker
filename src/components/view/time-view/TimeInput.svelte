@@ -35,7 +35,13 @@
     display: flex;
     flex-direction: column;
     color: var(--highlight-color);
-    width: 60%;
+    width: 80%;
+  }
+
+  @media (min-width: 600px) {
+    .time-picker {
+      width: 60%;
+    }
   }
   
   .time-picker.is-night {
