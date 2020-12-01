@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dayjs": "^1.9.6",
+    "es6-object-assign": "^1.1.0",
     "svelte": "^3.24.0",
     "timeUtils": "^2.0.0"
   },
@@ -22,7 +23,6 @@
     "@snowpack/web-test-runner-plugin": "^0.1.4",
     "@testing-library/svelte": "^3.0.0",
     "@web/test-runner": "^0.9.7",
-    "es6-object-assign": "^1.1.0",
     "eslint": "^7.14.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "snowpack": "^2.17.1",
