@@ -2,10 +2,11 @@
   import Popover from './Popover.svelte'
   import dayjs from 'dayjs/esm'
   import { contextKey, setup } from './lib/context'
-  import { createEventDispatcher, setContext, getContext, onDestroy } from 'svelte'
+  import { createEventDispatcher, setContext, getContext, onMount } from 'svelte'
   import { CalendarStyle } from '../calendar-style.js'
   import { createViewContext } from './view-context.js'
   import View from './view/View.svelte'
+  import { get } from 'svelte/store'
 
   export let range = false
   export let placeholder = 'Choose Date'
@@ -66,6 +67,24 @@
 
   $: dateChosen = $choices.isDateChosen
 
+  onMount(() => {
+    const choiceWatcherUnsubscribe = choices
+      .subscribe(({ isDateChosen }) => {
+        isDateChosen && config.isRangePicker && dispatch('range-chosen', {
+          from: get(selectedStartDate),
+          to: get(selectedEndDate)
+        })
+        isDateChosen && !config.isRangePicker && dispatch('date-chosen', {
+          date: get(selectedStartDate)
+        })
+      })
+
+    return () => {
+      destroy()
+      choiceWatcherUnsubscribe()
+    }
+  })
+
   let popover
 
   function registerClose () {
@@ -76,8 +95,6 @@
     highlighted.set(new Date($selectedStartDate))
     dispatch('open')
   }
-
-  onDestroy(destroy)
 </script>
 
 <style>

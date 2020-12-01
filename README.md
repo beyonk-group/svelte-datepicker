@@ -6,8 +6,9 @@
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![svelte-v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev) ![publish](https://github.com/beyonk-adventures/svelte-datepicker/workflows/publish/badge.svg)
 
-This is a near total rewrite of the excellent [https://github.com/6eDesign/svelte-calendar](Svelte Calendar). It provides:
+This is a near total rewrite of the excellent [Svelte Calendar](https://github.com/6eDesign/svelte-calendar). It provides:
 
+* Calendar
 * Date Picker
 * Date Range Picker
 * Time Selection
@@ -19,4 +20,6 @@ Roadmap:
 
 * Re-introduce Keyboard Support
 
-The docs are available at [https://beyonk.github.io/svelte-datepicker](https://beyonk.github.io/svelte-datepicker).
+## Usage
+
+See [The Documentation](https://svelte-datepicker.vercel.app) which is a work in progress.

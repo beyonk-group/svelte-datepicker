@@ -71,6 +71,7 @@
                 <a href="/date-picker/with-time">With Time</a>
                 <a href="/date-picker/without-time">Without Time</a>
                 <a href="/date-picker/with-time/with-selected-date">With Selected Date</a>
+                <a href="/date-picker/with-events">With Events</a>
               </nav>
               <h1>Svelte Date Picker</h1>
             </Route>
@@ -95,6 +96,24 @@
                   time={true} />
               </Route>
             </Route>
+            <Route path="/with-events">
+              <h2>With Events</h2>
+              <DatePicker
+                format='ddd, DD MMM YYYY'
+                time={true}
+                on:date-chosen={e => firedEvents = [
+                  ...firedEvents,
+                  `Picked date ${e.detail.date}`
+                ]}
+              />
+              <ul>
+              {#each firedEvents as fired}
+              <li>{fired}</li>
+              {:else}
+              <li>Pick date to see events</li>
+              {/each}
+              </ul>
+            </Route>
           </Route>
           <Route path="/range-picker/*">
             <Route path="/*">
@@ -102,6 +121,7 @@
                 <a href="/range-picker/with-time">With Time</a>
                 <a href="/range-picker/without-time">Without Time</a>
                 <a href="/range-picker/with-time/with-selected-dates">With Selected Dates</a>
+                <a href="/range-picker/with-time/with-events">With Events</a>
               </nav>
               <h1>Svelte Range Picker</h1>
             </Route>
@@ -125,6 +145,25 @@
                   selected={[ dayjs('2020-04-20T16:15:33.000Z').toDate(), dayjs('2020-05-20T05:23:12.000Z').toDate() ]}
                   range={true}
                   time={true} />
+              </Route>
+              <Route path="/with-events">
+                <h2>With Events</h2>
+                <DatePicker
+                  format='ddd, DD MMM YYYY'
+                  range={true}
+                  time={true}
+                  on:range-chosen={e => firedEvents = [
+                    ...firedEvents,
+                    `Picked range ${e.detail.from} to ${e.detail.to}`
+                  ]}
+                />
+                <ul>
+                {#each firedEvents as fired}
+                <li>{fired}</li>
+                {:else}
+                <li>Pick date to see events</li>
+                {/each}
+                </ul>
               </Route>
             </Route>
           </Route>
@@ -156,9 +195,10 @@
   import './normalize.css'
   import './prettify.css'
   import './style.css'
-
   import DatePicker from './components/DatePicker.svelte'
-import dayjs from 'dayjs/esm'
+  import dayjs from 'dayjs/esm'
+
+  let firedEvents = []
 </script>
 
 <style>
