@@ -236,7 +236,7 @@
   import './normalize.css'
   import './prettify.css'
   import './style.css'
-  import DatePicker from './components/DatePicker.svelte'
+  import { DatePicker } from './main.js'
   import dayjs from 'dayjs/esm'
   import relativeTime from 'dayjs/plugin/relativeTime'
 
