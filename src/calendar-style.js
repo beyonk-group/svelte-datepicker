@@ -20,6 +20,8 @@ class CalendarStyle {
     this.timeConfirmButtonColor = '#2196F3'
     this.timeConfirmButtonTextColor = '#fff'
 
+    this.toolbarBorderColor = '#888'
+
     Object.entries(overrides).forEach(([ prop, value ]) => {
       this[prop] = value
     })
@@ -43,6 +45,8 @@ class CalendarStyle {
 
       --time-confirm-button-text-color: ${this.timeConfirmButtonTextColor};
       --time-confirm-button-color: ${this.timeConfirmButtonColor};
+
+      --toolbar-border-color: ${this.toolbarBorderColor};
       ${this.style}
     `
   }

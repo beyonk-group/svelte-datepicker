@@ -5,20 +5,19 @@
   import { createEventDispatcher, setContext, getContext, onMount } from 'svelte'
   import { CalendarStyle } from '../calendar-style.js'
   import { createViewContext } from './view-context.js'
+  import Toolbar from './Toolbar.svelte'
   import View from './view/View.svelte'
-  import { get } from 'svelte/store'
 
   export let range = false
   export let placeholder = 'Choose Date'
   export let format = 'DD / MM / YYYY'
   export let start = dayjs().subtract(1, 'year').toDate()
   export let end = dayjs().add(1, 'year').toDate()
-  export let dateChosen = false
   export let trigger = null
   export let selectableCallback = null
   export let weekStart = 0
   export let styling = new CalendarStyle()
-  export let selected = range ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
+  export let selected
   export let closeOnFocusLoss = true
   export let time = false
   export let morning = 7
@@ -52,13 +51,12 @@
     isClosing,
     highlighted,
     formatter,
-    choices,
     months,
     pickStartDate,
     pickEndDate,
     pickStartTime,
     pickEndTime,
-    destroy
+    isDateChosen
   } = getContext(contextKey)
 
   setContext(startContextKey, createViewContext(true, selectedStartDate, months, config))
@@ -67,31 +65,7 @@
     setContext(endContextKey, createViewContext(false, selectedEndDate, months, config))
   }
 
-  $: dateChosen = $choices.isDateChosen
-
-  onMount(() => {
-    const choiceWatcherUnsubscribe = choices
-      .subscribe(({ isDateChosen }) => {
-        isDateChosen && config.isRangePicker && dispatch('range-chosen', {
-          from: get(selectedStartDate),
-          to: get(selectedEndDate)
-        })
-        isDateChosen && !config.isRangePicker && dispatch('date-chosen', {
-          date: get(selectedStartDate)
-        })
-      })
-
-    return () => {
-      destroy()
-      choiceWatcherUnsubscribe()
-    }
-  })
-
   let popover
-
-  function registerClose () {
-    dispatch('close')
-  }
 
   function initialisePicker () {
     highlighted.set(new Date($selectedStartDate))
@@ -127,13 +101,18 @@
   }
 
   .contents {
+    width: 320px;
+    display: flex;
+    flex-direction: column;;
+  }
+
+  .view {
     display: flex;
     flex-direction: column;
-    width: 320px;
   }
 
   @media (min-width: 600px) {
-    .contents {
+    .view {
       flex-direction: row;
     }
 
@@ -152,12 +131,12 @@
     {trigger}
     bind:this={popover}
     on:opened={initialisePicker}
-    on:closed={registerClose}>
+    on:closed={() => dispatch('close')}>
     <div slot="trigger">
       <slot formatted={$formatter}>
         {#if !trigger}
           <button class="calendar-button" type="button">
-            {#if $choices.isDateChosen}
+            {#if $isDateChosen}
               {$formatter.formattedCombined}
             {:else}
               {placeholder}
@@ -167,20 +146,23 @@
       </slot>
     </div>
     <div class="contents" slot="contents" class:is-range-picker={config.isRangePicker}>
-      <View
-        viewContextKey={startContextKey}
-        on:date-chosen={() => pickStartDate()}
-        on:time-chosen={() => pickStartTime()}
-        on:close={() => popover.close()}
-      />
-      {#if config.isRangePicker}
-      <View
-        viewContextKey={endContextKey}
-        on:date-chosen={() => pickEndDate()}
-        on:time-chosen={() => pickEndTime()}
-        on:close={() => popover.close()}
-      />
-      {/if}
+      <div class="view">
+        <View
+          viewContextKey={startContextKey}
+          on:date-chosen={() => pickStartDate()}
+          on:time-chosen={() => pickStartTime()}
+          on:close={() => popover.close()}
+        />
+        {#if config.isRangePicker}
+        <View
+          viewContextKey={endContextKey}
+          on:date-chosen={() => pickEndDate()}
+          on:time-chosen={() => pickEndTime()}
+          on:close={() => popover.close()}
+        />
+        {/if}
+      </div>
+      <Toolbar on:date-chosen on:range-chosen on:close={() => popover.close()} />
     </div>
   </Popover>
 </div>

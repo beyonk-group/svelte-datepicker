@@ -4,7 +4,7 @@
   import { getTranslate } from './lib/positioning.js'
   import { once } from './lib/event-handling.js'
 
-  const { isOpen, isClosing, config, resetChoices } = getContext(contextKey)
+  const { isOpen, isClosing, config } = getContext(contextKey)
   const dispatch = createEventDispatcher()
 
   let popover
@@ -49,7 +49,6 @@
 
   const doOpen = async () => {
     if (!$isOpen) { isOpen.set(true) }
-    resetChoices()
 
     const { x, y } = await getTranslate(w, contentsWrapper, translateX, translateY)
     translateY = y

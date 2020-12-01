@@ -1,41 +1,9 @@
-import { derived, get, writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
+import DateView from '../view/date-view/DateView.svelte'
 import { createFormatter } from './formatter.js'
 import dayjs from 'dayjs/esm'
 
 const contextKey = {}
-
-function createState (config) {
-  const chosenStartDate = writable(false)
-  const chosenEndDate = writable(false)
-  const chosenStartTime = writable(false)
-  const chosenEndTime = writable(false)
-
-  return {
-    pickStartDate: () => chosenStartDate.set(true),
-    pickEndDate: () => chosenEndDate.set(true),
-    pickStartTime: () => chosenStartTime.set(true),
-    pickEndTime: () => chosenEndTime.set(true),
-    resetChoices: () => {
-      chosenStartDate.set(false)
-      chosenEndDate.set(false)
-      chosenStartTime.set(false)
-      chosenEndTime.set(false)
-    },
-    choices: derived([ chosenStartDate, chosenEndDate, chosenStartTime, chosenEndTime ], ([ $chosenStartDate, $chosenEndDate, $chosenStartTime, $chosenEndTime ]) => {
-      const validDates = config.isRangePicker ? $chosenStartDate && $chosenEndDate : $chosenStartDate
-      const validTimes = config.isTimePicker
-        ? (config.isRangePicker ? $chosenEndTime : $chosenStartTime)
-        : true
-      const finished = validDates && validTimes
-
-      return {
-        allDatesChosen: validDates,
-        allTimesChosen: validTimes,
-        isDateChosen: finished
-      }
-    })
-  }
-}
 
 function moveDateWithinAllowedRange (date, config) {
   const isOutsideRange = (
@@ -51,9 +19,15 @@ function moveDateWithinAllowedRange (date, config) {
   return date
 }
 
-function setup (selected, config) {
+function setup (given, config) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
+
+  let selected = given
+  const dateChosen = Boolean(selected).valueOf()
+  if (!dateChosen) {
+    selected = config.isRangePicker ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
+  }
 
   const months = getMonths(config.start, config.end, config.selectableCallback, config.weekStart)
   const [ preSelectedStart, preSelectedEnd ] = Array.isArray(selected) ? selected : [ selected, null ]
@@ -62,35 +36,22 @@ function setup (selected, config) {
   const selectedEndDate = writable(preSelectedEnd)
 
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
+  const component = writable(DateView)
 
-  const state = createState(config)
-  const swapWatcherUnsubscriber = state.choices.subscribe(({ allDatesChosen, allTimesChosen }) => {
-    if (config.isRangePicker && (allDatesChosen || allTimesChosen)) {
-      const chosenStart = get(selectedStartDate)
-      const chosenEnd = get(selectedEndDate)
-      if (chosenEnd < chosenStart) {
-        selectedStartDate.set(chosenEnd)
-        selectedEndDate.set(chosenStart)
-      }
-    }
-  })
-
-  return Object.assign(
-    {
-      months,
-      today,
-      selectedStartDate,
-      selectedEndDate,
-      config,
-      shouldShakeDate: writable(false),
-      isOpen: writable(false),
-      isClosing: writable(false),
-      highlighted: writable(today),
-      formatter,
-      destroy: swapWatcherUnsubscriber
-    },
-    state
-  )
+  return {
+    months,
+    component,
+    today,
+    selectedStartDate,
+    selectedEndDate,
+    config,
+    shouldShakeDate: writable(false),
+    isOpen: writable(false),
+    isClosing: writable(false),
+    highlighted: writable(today),
+    formatter,
+    isDateChosen: writable(dateChosen)
+  }
 }
 
 const getCalendarPage = (month, year, dayProps, weekStart = 0) => {

@@ -1,38 +1,18 @@
 <div class="calendar" class:is-range-picker={config.isRangePicker} class:day={$isDaytime} class:night={!$isDaytime}>
   <svelte:component
     {viewContextKey}
-    this={component}
-    on:date-chosen
-    on:time-chosen
+    this={$component}
   />
 </div>
 
 <script>
   import { contextKey } from '../lib/context'
-  import { getContext, onMount, createEventDispatcher } from 'svelte'
-  import DateView from './date-view/DateView.svelte'
-  import TimeView from './time-view/TimeView.svelte'
+  import { getContext } from 'svelte'
 
   export let viewContextKey
 
-  const dispatch = createEventDispatcher()
-
-  const { config, choices } = getContext(contextKey)
+  const { config, component } = getContext(contextKey)
   const { isDaytime } = getContext(viewContextKey)
-
-  let component = DateView
-
-  onMount(() => {
-    return choices.subscribe(({ allDatesChosen, allTimesChosen }) => {
-      if (!allDatesChosen) {
-        component = DateView
-      } else if (allDatesChosen && !allTimesChosen) {
-        component = TimeView
-      } else if (allDatesChosen && allTimesChosen) {
-        dispatch('close')
-      }
-    })
-  })
 </script>
 
 <style>
