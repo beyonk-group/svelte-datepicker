@@ -107,10 +107,12 @@
               <DatePicker
                 format='ddd, DD MMM YYYY'
                 time={true}
-                on:date-chosen={e => firedEvents = [
-                  ...firedEvents,
-                  `Picked date ${e.detail.date}`
-                ]}
+                on:date-chosen={e => {
+                  firedEvents = [
+                    ...firedEvents,
+                    `Picked date ${e.detail.date}`
+                  ]
+                }}
               />
               <ul>
               {#each firedEvents as fired}
@@ -158,10 +160,12 @@
                   format='ddd, DD MMM YYYY'
                   range={true}
                   time={true}
-                  on:range-chosen={e => firedEvents = [
-                    ...firedEvents,
-                    `Picked range ${e.detail.from} to ${e.detail.to}`
-                  ]}
+                  on:range-chosen={e => {
+                    firedEvents = [
+                      ...firedEvents,
+                      `Picked range ${e.detail.from} to ${e.detail.to}`
+                    ]
+                  }}
                 />
                 <ul>
                 {#each firedEvents as fired}
