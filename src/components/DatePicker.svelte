@@ -3,6 +3,7 @@
   import dayjs from 'dayjs/esm'
   import { contextKey, setup } from './lib/context'
   import { createEventDispatcher, setContext, getContext } from 'svelte'
+  import { get } from 'svelte/store'
   import { CalendarStyle } from '../calendar-style.js'
   import { createViewContext } from './view-context.js'
   import Toolbar from './Toolbar.svelte'
@@ -71,6 +72,8 @@
     highlighted.set(new Date($selectedStartDate))
     dispatch('open')
   }
+
+  $: selected = $isDateChosen && (config.isRangePicker ? [ get(selectedStartDate), get(selectedEndDate) ] : get(selectedStartDate))
 </script>
 
 <style>

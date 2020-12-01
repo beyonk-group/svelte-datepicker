@@ -1,5 +1,5 @@
 <div class="toolbar">
-  <button class="button" on:click={progress}>
+  <button type="button" class="button" on:click|preventDefault={progress}>
     Continue
   </button>
 </div>
@@ -30,6 +30,7 @@
   }
 
   function progress () {
+    isDateChosen.set(false)
     if ($component === DateView) {
       if (config.isTimePicker) {
         component.set(TimeView)

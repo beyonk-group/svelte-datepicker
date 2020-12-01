@@ -73,13 +73,15 @@
                 <a href="/date-picker/with-time/with-selected-date">With Selected Date</a>
                 <a href="/date-picker/with-time/with-minute-step">With Minute Step</a>
                 <a href="/date-picker/with-events">With Events</a>
+                <a href="/date-picker/with-custom-button">With Custom Button</a>
               </nav>
               <h1>Svelte Date Picker</h1>
             </Route>
             <Route path="/without-time/*">
               <h2>Without Time Choice</h2>
               <Route path="/">
-                <DatePicker format='ddd, DD MMM YYYY' />
+                <div class="demo">
+                  <DatePicker format='ddd, DD MMM YYYY' />
               </Route>
             </Route>
             <Route path="/with-time/*">
@@ -87,16 +89,19 @@
                 <h2>With Time Choice</h2>
               </Route>
               <Route path="/">
-                <DatePicker format='ddd, DD MMM YYYY HH:mm' time={true} />
+                <div class="demo">
+                  <DatePicker format='ddd, DD MMM YYYY HH:mm' time={true} />
               </Route>
               <Route path="/with-minute-step">
                 <h2>With Minute Step</h2>
                 <p>Increment and decrement minutes by 15 rather than the default 5</p>
-                <DatePicker minuteStep={15} format='ddd, DD MMM YYYY HH:mm' time={true} />
+                <div class="demo">
+                  <DatePicker minuteStep={15} format='ddd, DD MMM YYYY HH:mm' time={true} />
               </Route>
               <Route path="/with-selected-date">
                 <h3>With Selected Date</h3>
-                <DatePicker
+                <div class="demo">
+                  <DatePicker
                   format='ddd, DD MMM YYYY HH:mm'
                   selected={dayjs('2020-04-20T16:15:33.000Z').toDate()}
                   time={true} />
@@ -104,16 +109,18 @@
             </Route>
             <Route path="/with-events">
               <h2>With Events</h2>
-              <DatePicker
-                format='ddd, DD MMM YYYY'
-                time={true}
-                on:date-chosen={e => {
-                  firedEvents = [
-                    ...firedEvents,
-                    `Picked date ${e.detail.date}`
-                  ]
-                }}
-              />
+              <div class="demo">
+                <DatePicker
+                  format='ddd, DD MMM YYYY'
+                  time={true}
+                  on:date-chosen={e => {
+                    firedEvents = [
+                      ...firedEvents,
+                      `Picked date ${e.detail.date}`
+                    ]
+                  }}
+                />
+              </div>
               <ul>
               {#each firedEvents as fired}
               <li>{fired}</li>
@@ -121,6 +128,22 @@
               <li>Pick date to see events</li>
               {/each}
               </ul>
+            </Route>
+            <Route path="/with-custom-button">
+              <h3>With Custom Button</h3>
+              <div class="demo">
+                <DatePicker
+                bind:selected={customSelected}>
+                <button class="custom-button">
+                  {#if customSelected}
+                    Beach Time! {dayjs(customSelected).fromNow()}
+                  {:else}
+                    Beach Time?
+                  {/if}
+                </button>
+              </DatePicker>
+              </div>
+              <p>* Beach Time <a href="https://codepen.io/merkund">by merkund</a></p>
             </Route>
           </Route>
           <Route path="/range-picker/*">
@@ -136,7 +159,9 @@
             <Route path="/without-time/*">
               <h2>Without Time Choice</h2>
               <Route path="/">
-                <DatePicker format='ddd, DD MMM YYYY' range={true} />
+                <div class="demo">
+                  <DatePicker format='ddd, DD MMM YYYY' range={true} />
+                </div>
               </Route>
             </Route>
             <Route path="/with-time/*">
@@ -144,19 +169,24 @@
                 <h2>With Time Choice</h2>
               </Route>
               <Route path="/">
-                <DatePicker format='ddd, DD MMM YYYY HH:mm' range={true} time={true} />
+                <div class="demo">
+                  <DatePicker format='ddd, DD MMM YYYY HH:mm' range={true} time={true} />
+                </div>
               </Route>
               <Route path="/with-selected-dates">
                 <h3>With Selected Dates</h3>
-                <DatePicker
+                <div class="demo">
+                  <DatePicker
                   format='ddd, DD MMM YYYY HH:mm'
                   selected={[ dayjs('2020-04-20T16:15:33.000Z').toDate(), dayjs('2020-05-20T05:23:12.000Z').toDate() ]}
                   range={true}
                   time={true} />
+                </div>
               </Route>
               <Route path="/with-events">
                 <h2>With Events</h2>
-                <DatePicker
+                <div class="demo">
+                  <DatePicker
                   format='ddd, DD MMM YYYY'
                   range={true}
                   time={true}
@@ -167,6 +197,7 @@
                     ]
                   }}
                 />
+                </div>
                 <ul>
                 {#each firedEvents as fired}
                 <li>{fired}</li>
@@ -207,8 +238,12 @@
   import './style.css'
   import DatePicker from './components/DatePicker.svelte'
   import dayjs from 'dayjs/esm'
+  import relativeTime from 'dayjs/plugin/relativeTime'
+
+  dayjs.extend(relativeTime)
 
   let firedEvents = []
+  let customSelected = null
 </script>
 
 <style>
@@ -216,6 +251,24 @@
     height: 42px;
     stroke: white;
     fill: white;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    display: inline;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  h1:not(:last-child)::after,
+  h2:not(:last-child)::after,
+  h3:not(:last-child)::after,
+  h4:not(:last-child)::after {
+    content: ' // ';
+    font-weight: 400;
+    color: goldenrod;
   }
 
   nav:not(.side-nav) {
@@ -227,5 +280,53 @@
     border: 1px solid grey;
     padding: 12px;
     margin: 6px;
+  }
+
+  .demo {
+    margin: 24px 0;
+  }
+
+  .custom-button {
+    -webkit-appearance: none;
+    background: -webkit-gradient(to right, #a2ccb6 0%, #fceeb5 50%, #ee786e 100%);
+    background: linear-gradient(to right, #a2ccb6 0%, #fceeb5 50%, #ee786e 100%);
+    background-size: 500%;
+    border: none;
+    border-radius: 5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    color: #fff;
+    cursor: pointer;
+    font: 1.5em Raleway, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 5rem;
+    letter-spacing: 0.05em;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 20rem;
+  }
+
+  .custom-button:hover {
+    animation-name: gradient;
+    -webkit-animation-name: gradient;
+    animation-duration: 2s;
+    -webkit-animation-duration: s;
+    animation-iteration-count: 1;
+    -webkit-animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100%;
+    }
   }
 </style>
