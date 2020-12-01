@@ -71,6 +71,7 @@
                 <a href="/date-picker/with-time">With Time</a>
                 <a href="/date-picker/without-time">Without Time</a>
                 <a href="/date-picker/with-time/with-selected-date">With Selected Date</a>
+                <a href="/date-picker/with-time/with-minute-step">With Minute Step</a>
                 <a href="/date-picker/with-events">With Events</a>
               </nav>
               <h1>Svelte Date Picker</h1>
@@ -87,6 +88,11 @@
               </Route>
               <Route path="/">
                 <DatePicker format='ddd, DD MMM YYYY HH:mm' time={true} />
+              </Route>
+              <Route path="/with-minute-step">
+                <h2>With Minute Step</h2>
+                <p>Increment and decrement minutes by 15 rather than the default 5</p>
+                <DatePicker minuteStep={15} format='ddd, DD MMM YYYY HH:mm' time={true} />
               </Route>
               <Route path="/with-selected-date">
                 <h3>With Selected Date</h3>

@@ -36,7 +36,7 @@ jobs:
         run: |
           npm run build
           cd build
-          npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+          npx vercel -A ../deployment-config/vercel.json --prod --token ${{ secrets.VERCEL_TOKEN }}
         env:
           NOW_PROJECT_ID: 'prj_1kSWQ4j4fKqpjLgCiqAydPBQPlmB'
           NOW_ORG_ID: 'team_ebDKq5BBTF4figtiNJc3VRH6'

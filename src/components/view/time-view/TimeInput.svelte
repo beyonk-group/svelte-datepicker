@@ -22,7 +22,7 @@
 
   const { config } = getContext(contextKey)
   const { date, isDaytime } = getContext(viewContextKey)
-  const { increment, decrement, time: timeStore } = createStore($date, config.morning, config.night)
+  const { increment, decrement, time: timeStore } = createStore($date, config)
 
   onMount(() => timeStore.subscribe(ts => {
     const [ d, m ] = ts.split(':').map(g => parseInt(g))

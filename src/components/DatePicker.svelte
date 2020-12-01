@@ -23,6 +23,7 @@
   export let time = false
   export let morning = 7
   export let night = 19
+  export let minuteStep = 5
 
   const dispatch = createEventDispatcher()
 
@@ -39,7 +40,8 @@
     morning,
     night,
     selectableCallback,
-    weekStart
+    weekStart,
+    minuteStep: parseInt(minuteStep)
   }
 
   setContext(contextKey, setup(selected, config))

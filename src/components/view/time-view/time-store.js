@@ -8,14 +8,16 @@ function format (h, m) {
   ].join(':')
 }
 
-function createStore (date) {
+function createStore (date, config) {
   const time = writable(dayjs(date).format('HH:mm'))
 
   function increment (segment) {
     time.update(t => {
       let [ h, m ] = t.split(':')
       if (segment === 'hour' && h < 23) { ++h }
-      if (segment === 'minute' && m < 59) { ++m }
+      if (segment === 'minute' && m < 59) {
+        m = Math.min(59, parseInt(m) + config.minuteStep)
+      }
       return format(h, m)
     })
   }
@@ -24,7 +26,9 @@ function createStore (date) {
     time.update(t => {
       let [ h, m ] = t.split(':')
       if (segment === 'hour' && h > 0) { --h }
-      if (segment === 'minute' && m > 0) { --m }
+      if (segment === 'minute' && m > 0) {
+        m = Math.max(0, parseInt(m) - config.minuteStep)
+      }
       return format(h, m)
     })
   }
