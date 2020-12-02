@@ -1,6 +1,6 @@
 'use strict'
 
-import dayjs from 'dayjs/esm'
+import { dayjs } from './lib/date-utils'
 import DateView from './view/date-view/DateView.svelte'
 import { derived, writable, get } from 'svelte/store'
 
@@ -33,7 +33,6 @@ function createViewContext (isStart, date, months, config) {
   return {
     isStart,
     view: DateView,
-    allDatesChosen: writable(false),
     date,
     isDaytime,
     year,

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs/esm'
+import { dayjs } from '../../lib/date-utils.js'
 
 export function areDatesEquivalent (a, b) {
   return a.getDate() === b.getDate() &&

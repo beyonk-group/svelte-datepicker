@@ -16,7 +16,7 @@
   import Chevron from './Chevron.svelte'
   import { timeInput } from './time-input.js'
   import { createStore } from './time-store.js'
-  import dayjs from 'dayjs/esm'
+  import { dayjs } from '../../lib/date-utils.js'
 
   export let viewContextKey
 

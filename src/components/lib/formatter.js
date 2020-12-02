@@ -1,4 +1,4 @@
-import dayjs from 'dayjs/esm'
+import { dayjs } from './date-utils'
 import { derived } from 'svelte/store'
 
 function createFormatter (selectedStartDate, selectedEndDate, config) {

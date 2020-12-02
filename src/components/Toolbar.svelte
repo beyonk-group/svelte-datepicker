@@ -18,12 +18,12 @@
     isDateChosen.set(true)
     if (config.isRangePicker) {
       dispatch('range-chosen', {
-        from: selectedStartDate,
-        to: selectedEndDate
+        from: $selectedStartDate,
+        to: $selectedEndDate
       })
     } else {
       dispatch('date-chosen', {
-        date: selectedStartDate
+        date: $selectedStartDate
       })
     }
     dispatch('close')

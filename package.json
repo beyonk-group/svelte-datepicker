@@ -12,8 +12,7 @@
   "dependencies": {
     "dayjs": "^1.9.6",
     "es6-object-assign": "^1.1.0",
-    "svelte": "^3.24.0",
-    "timeUtils": "^2.0.0"
+    "svelte": "^3.24.0"
   },
   "devDependencies": {
     "@beyonk/eslint-config": "^4.2.0",

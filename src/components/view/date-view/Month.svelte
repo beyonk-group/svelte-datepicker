@@ -1,7 +1,7 @@
 <script>
   import Week from './Week.svelte'
   import { getContext } from 'svelte'
-  import { sortedDaysOfWeek } from '../../lib/time'
+  import { dayjs } from '../../lib/date-utils.js'
 
   export let viewContextKey
   export let id
@@ -21,8 +21,8 @@
   <div class="month-dates">
     <div class="legend">
       <div class="month-week">
-        {#each sortedDaysOfWeek as day}
-          <span>{day[1]}</span>
+        {#each dayjs.weekdaysShort() as day}
+          <span>{day}</span>
         {/each}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 import DateView from '../view/date-view/DateView.svelte'
 import { createFormatter } from './formatter.js'
-import dayjs from 'dayjs/esm'
+import { dayjs } from './date-utils'
 
 const contextKey = {}
 
@@ -29,9 +29,7 @@ function setup (given, config) {
     selected = config.isRangePicker ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
   }
 
-  console.log('selected', selected)
-  const months = getMonths(config.start, config.end, config.selectableCallback, config.weekStart)
-  console.log('after months', selected)
+  const months = getMonths(config)
 
   const [ preSelectedStart, preSelectedEnd ] = Array.isArray(selected) ? selected : [ selected, null ]
   const givenDate = moveDateWithinAllowedRange(preSelectedStart, config)
@@ -52,11 +50,14 @@ function setup (given, config) {
     isClosing: writable(false),
     highlighted: writable(today),
     formatter,
-    isDateChosen: writable(dateChosen)
+    isDateChosen: writable(dateChosen),
+    resetView: () => {
+      component.set(DateView)
+    }
   }
 }
 
-const getCalendarPage = (month, year, dayProps, weekStart = 0) => {
+const getCalendarPage = (month, year, dayProps, weekStart) => {
   const date = new Date(year, month, 1)
   date.setDate(date.getDate() - date.getDay() + weekStart)
   const nextMonth = month === 11 ? 0 : month + 1
@@ -98,14 +99,15 @@ function getDayPropsHandler (start, end, selectableCallback) {
   }
 }
 
-function getMonths (start, end, selectableCallback = null, weekStart = 0) {
+function getMonths (config) {
+  const { start, end, selectableCallback } = config
   const firstDay = dayjs(start).startOf('month').startOf('day')
   const lastDay = dayjs(end).startOf('month').startOf('day')
   const months = []
   let date = dayjs(firstDay)
   const dayPropsHandler = getDayPropsHandler(firstDay.toDate(), lastDay.toDate(), selectableCallback)
   while (date.isBefore(lastDay)) {
-    months.push(getCalendarPage(date.month(), date.year(), dayPropsHandler, weekStart))
+    months.push(getCalendarPage(date.month(), date.year(), dayPropsHandler, dayjs.localeData().firstDayOfWeek()))
     date = date.add(1, 'month')
   }
   return months

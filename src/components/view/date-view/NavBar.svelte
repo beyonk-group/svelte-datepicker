@@ -1,8 +1,7 @@
 <script>
   import { getContext } from 'svelte'
   import { contextKey } from '../../lib/context'
-  import { monthsOfYear } from '../../lib/time'
-  // import { getDay } from './get-day.js'
+  import { dayjs } from '../../lib/date-utils.js'
 
   export let viewContextKey
 
@@ -15,10 +14,10 @@
   $: {
     const isOnLowerBoundary = config.start.getFullYear() === $year
     const isOnUpperBoundary = config.end.getFullYear() === $year
-    availableMonths = monthsOfYear.map((m, i) => {
+    availableMonths = dayjs.months().map((m, i) => {
       return Object.assign({}, {
-        name: m[0],
-        abbrev: m[1]
+        name: m,
+        abbrev: dayjs.monthsShort()[i]
       }, {
         selectable:
           (!isOnLowerBoundary && !isOnUpperBoundary) ||
@@ -30,8 +29,6 @@
     })
   }
 
-  // $: lastVisibleDate = $monthView.visibleMonth.weeks[$monthView.visibleMonth.weeks.length - 1].days[6].date
-  // $: firstVisibleDate = $monthView.visibleMonth.weeks[0].days[0].date
   $: canIncrementMonth = $monthView.monthIndex < months.length - 1
   $: canDecrementMonth = $monthView.monthIndex > 0
 
@@ -49,25 +46,6 @@
     year.set(current.getFullYear())
     highlighted.set(new Date($year, $month, day))
   }
-
-  // function incrementDayHighlighted (amount) {
-  //   const proposedDate = new Date($highlighted)
-  //   proposedDate.setDate($highlighted.getDate() + amount)
-  //   const correspondingDayObj = getDay(
-  //     months,
-  //     proposedDate.getMonth(),
-  //     proposedDate.getDate(),
-  //     proposedDate.getFullYear()
-  //   )
-  //   if (!correspondingDayObj || !correspondingDayObj.isInRange) { return }
-  //   highlighted.set(proposedDate)
-  //   if (amount > 0 && $highlighted > lastVisibleDate) {
-  //     incrementMonth(1, $highlighted.getDate())
-  //   }
-  //   if (amount < 0 && $highlighted < firstVisibleDate) {
-  //     incrementMonth(-1, $highlighted.getDate())
-  //   }
-  // }
 
   function toggleMonthSelectorOpen () {
     monthSelectorOpen = !monthSelectorOpen
@@ -89,7 +67,7 @@
       <i class="arrow left"></i>
     </div>
     <div class="label" on:click={toggleMonthSelectorOpen}>
-      <span>{monthsOfYear[$month][0]} {$year}</span>
+      <span>{dayjs.months()[$month]} {$year}</span>
     </div> 
     <div class="control"
       class:enabled={canIncrementMonth}

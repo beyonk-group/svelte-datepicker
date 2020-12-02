@@ -17,38 +17,31 @@
   import NavBar from './NavBar.svelte'
   import { checkIfVisibleDateIsSelectable, shakeDate } from './feedback.js'
   import { contextKey } from '../../lib/context.js'
-  // import { createKeyboardHandler } from './keyboard.js'
-  import { getContext, createEventDispatcher } from 'svelte'
+  import { dayjs } from '../../lib/date-utils.js'
+  import { getContext } from 'svelte'
 
   export let viewContextKey
 
-  const { date, year, month } = getContext(viewContextKey)
-  const { months, shouldShakeDate } = getContext(contextKey)
-  const dispatch = createEventDispatcher()
-
-  // const keyboardHandler = createKeyboardHandler({
-  //   incrementDayHighlighted,
-  //   incrementMonth,
-  //   registerSelection: () => registerSelection($highlighted),
-  //   close: () => dispatch('close')
-  // })
-
-  // onMount(() => {
-  //   document.addEventListener('keydown', keyboardHandler)
-  //   return () => {
-  //     document.removeEventListener('keydown', keyboardHandler)
-  //   }
-  // })
+  const { date, year, month, isStart } = getContext(viewContextKey)
+  const { months, shouldShakeDate, config, selectedStartDate, selectedEndDate } = getContext(contextKey)
 
   $: visibleMonthsId = $year + $month / 100
 
+  function violatesRange (chosen) {
+    if (!config.isRangePicker) { return false }
+    const date = dayjs(chosen)
+    const startsAfterEnd = isStart && date.isAfter($selectedEndDate)
+    const endsBeforeStart = !isStart && date.isBefore($selectedStartDate)
+
+    return startsAfterEnd || endsBeforeStart
+  }
+
   function registerSelection (chosen) {
-    if (!checkIfVisibleDateIsSelectable(months, chosen)) {
+    if (!checkIfVisibleDateIsSelectable(months, chosen) || violatesRange(chosen)) {
       return shakeDate(shouldShakeDate, chosen)
     }
 
     date.set(chosen)
-    dispatch('date-chosen')
     return true
   }
 </script>

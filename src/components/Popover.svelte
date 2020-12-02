@@ -4,7 +4,7 @@
   import { getTranslate } from './lib/positioning.js'
   import { once } from './lib/event-handling.js'
 
-  const { isOpen, isClosing, config } = getContext(contextKey)
+  const { isOpen, isClosing, config, resetView } = getContext(contextKey)
   const dispatch = createEventDispatcher()
 
   let popover
@@ -54,6 +54,7 @@
     translateY = y
     translateX = x
     isOpen.set(true)
+    resetView()
 
     dispatch('opened')
   }

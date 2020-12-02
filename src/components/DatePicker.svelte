@@ -1,9 +1,8 @@
 <script>
   import Popover from './Popover.svelte'
-  import dayjs from 'dayjs/esm'
+  import { dayjs } from './lib/date-utils'
   import { contextKey, setup } from './lib/context'
   import { createEventDispatcher, setContext, getContext } from 'svelte'
-  import { get } from 'svelte/store'
   import { CalendarStyle } from '../calendar-style.js'
   import { createViewContext } from './view-context.js'
   import Toolbar from './Toolbar.svelte'
@@ -16,7 +15,6 @@
   export let end = dayjs().add(1, 'year').toDate()
   export let trigger = null
   export let selectableCallback = null
-  export let weekStart = 0
   export let styling = new CalendarStyle()
   export let selected
   export let closeOnFocusLoss = true
@@ -40,7 +38,6 @@
     morning,
     night,
     selectableCallback,
-    weekStart,
     minuteStep: parseInt(minuteStep)
   }
 
@@ -53,10 +50,6 @@
     highlighted,
     formatter,
     months,
-    pickStartDate,
-    pickEndDate,
-    pickStartTime,
-    pickEndTime,
     isDateChosen
   } = getContext(contextKey)
 
@@ -73,7 +66,7 @@
     dispatch('open')
   }
 
-  $: selected = $isDateChosen && (config.isRangePicker ? [ get(selectedStartDate), get(selectedEndDate) ] : get(selectedStartDate))
+  $: selected = $isDateChosen && (config.isRangePicker ? [ $selectedStartDate, $selectedEndDate ] : $selectedStartDate)
 </script>
 
 <style>
@@ -152,15 +145,11 @@
       <div class="view">
         <View
           viewContextKey={startContextKey}
-          on:date-chosen={() => pickStartDate()}
-          on:time-chosen={() => pickStartTime()}
           on:close={() => popover.close()}
         />
         {#if config.isRangePicker}
         <View
           viewContextKey={endContextKey}
-          on:date-chosen={() => pickEndDate()}
-          on:time-chosen={() => pickEndTime()}
           on:close={() => popover.close()}
         />
         {/if}

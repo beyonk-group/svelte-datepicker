@@ -1,5 +1,5 @@
 <script>
-  import dayjs from 'dayjs/esm'
+  import { dayjs } from '../../lib/date-utils.js'
   import { contextKey } from '../../lib/context.js'
   import TimeInput from './TimeInput.svelte'
   import { getContext } from 'svelte'

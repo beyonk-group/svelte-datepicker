@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import dayjs from 'dayjs/esm'
+import { dayjs } from '../../lib/date-utils.js'
 
 function format (h, m) {
   return [
