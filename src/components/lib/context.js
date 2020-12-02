@@ -12,7 +12,7 @@ function moveDateWithinAllowedRange (date, config) {
   )
 
   if (isOutsideRange) {
-    console.warn('Provided date', dayjs(date).format(), 'is outside allowed range', dayjs(config.start).format(), 'to', dayjs(config.end).format())
+    console.warn('Provided date', dayjs(date).format(), 'is outside specified start-and-end range', dayjs(config.start).format(), 'to', dayjs(config.end).format())
     return config.start
   }
 
@@ -29,12 +29,14 @@ function setup (given, config) {
     selected = config.isRangePicker ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
   }
 
+  console.log('selected', selected)
   const months = getMonths(config.start, config.end, config.selectableCallback, config.weekStart)
+  console.log('after months', selected)
+
   const [ preSelectedStart, preSelectedEnd ] = Array.isArray(selected) ? selected : [ selected, null ]
   const givenDate = moveDateWithinAllowedRange(preSelectedStart, config)
   const selectedStartDate = writable(givenDate)
   const selectedEndDate = writable(preSelectedEnd)
-
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable(DateView)
 
@@ -97,16 +99,14 @@ function getDayPropsHandler (start, end, selectableCallback) {
 }
 
 function getMonths (start, end, selectableCallback = null, weekStart = 0) {
-  start.setHours(0, 0, 0, 0)
-  end.setHours(0, 0, 0, 0)
-  const endDate = new Date(end.getFullYear(), end.getMonth() + 1, 1)
+  const firstDay = dayjs(start).startOf('month').startOf('day')
+  const lastDay = dayjs(end).startOf('month').startOf('day')
   const months = []
-  let date = new Date(start.getFullYear(), start.getMonth(), 1)
-  const dayPropsHandler = getDayPropsHandler(start, end, selectableCallback)
-  while (date < endDate) {
-    months.push(getCalendarPage(date.getMonth(), date.getFullYear(), dayPropsHandler, weekStart))
-    date.setMonth(date.getMonth() + 1)
-    date = new Date(date)
+  let date = dayjs(firstDay)
+  const dayPropsHandler = getDayPropsHandler(firstDay.toDate(), lastDay.toDate(), selectableCallback)
+  while (date.isBefore(lastDay)) {
+    months.push(getCalendarPage(date.month(), date.year(), dayPropsHandler, weekStart))
+    date = date.add(1, 'month')
   }
   return months
 }
