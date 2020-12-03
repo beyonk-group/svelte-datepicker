@@ -45,6 +45,10 @@
   const {
     selectedStartDate,
     selectedEndDate,
+    startYear,
+    startMonth,
+    endYear,
+    endMonth,
     isOpen,
     isClosing,
     highlighted,
@@ -53,10 +57,11 @@
     isDateChosen
   } = getContext(contextKey)
 
-  setContext(startContextKey, createViewContext(true, selectedStartDate, months, config))
+
+  setContext(startContextKey, createViewContext(true, selectedStartDate, startYear, startMonth, months, config))
 
   if (config.isRangePicker) {
-    setContext(endContextKey, createViewContext(false, selectedEndDate, months, config))
+    setContext(endContextKey, createViewContext(false, selectedEndDate, endYear, endMonth, months, config))
   }
 
   let popover

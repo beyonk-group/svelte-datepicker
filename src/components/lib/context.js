@@ -37,9 +37,16 @@ function sanitizeInitialValue (value, config) {
     isDateChosen,
     chosen: [
       moveDateWithinAllowedRange(from, config, true),
-      ...config.isRangePicker && [ moveDateWithinAllowedRange(to, config, false) ]
+      ...config.isRangePicker ? [ moveDateWithinAllowedRange(to, config, false) ] : []
     ]
   }
+}
+
+function getNavBarStores (date) {
+  return [
+    writable(date.getFullYear()),
+    writable(date.getMonth())
+  ]
 }
 
 function setup (given, config) {
@@ -52,12 +59,19 @@ function setup (given, config) {
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable('date-view')
 
+  const [ startYear, startMonth ] = getNavBarStores(preSelectedStart)
+  const [ endYear, endMonth ] = config.isRangePicker ? getNavBarStores(preSelectedEnd) : []
+
   return {
     months: getMonths(config),
     component,
     today,
     selectedStartDate,
     selectedEndDate,
+    startYear,
+    startMonth,
+    endYear,
+    endMonth,
     config,
     shouldShakeDate: writable(false),
     isOpen: writable(false),

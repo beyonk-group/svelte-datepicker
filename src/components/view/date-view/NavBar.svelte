@@ -5,8 +5,8 @@
 
   export let viewContextKey
 
-  const { months, config, highlighted } = getContext(contextKey)
-  const { year, month, monthView } = getContext(viewContextKey)
+  const { months, config, highlighted, endMonth, endYear, startMonth, startYear } = getContext(contextKey)
+  const { isStart, year, month, monthView } = getContext(viewContextKey)
 
   let monthSelectorOpen = false
   let availableMonths
@@ -29,8 +29,11 @@
     })
   }
 
-  $: canIncrementMonth = $monthView.monthIndex < months.length - 1
-  $: canDecrementMonth = $monthView.monthIndex > 0
+  $: myPosition = ($year * 12) + $month
+  $: startPosition = ($startYear * 12) + $startMonth
+  $: endPosition = ($endYear * 12) + $endMonth
+  $: canIncrementMonth = ($monthView.monthIndex < months.length - 1) && (config.isRangePicker && isStart ? myPosition < endPosition : true)
+  $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > startPosition : true)
 
   function changeMonth (selectedMonth) {
     month.set(selectedMonth)
