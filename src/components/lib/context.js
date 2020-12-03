@@ -5,7 +5,7 @@ import { dayjs } from './date-utils'
 
 const contextKey = {}
 
-function moveDateWithinAllowedRange (date, config) {
+function moveDateWithinAllowedRange (date, config, isStart) {
   const isOutsideRange = (
     date.getTime() < config.start.getTime() ||
     date.getTime() > config.end.getTime()
@@ -13,33 +13,48 @@ function moveDateWithinAllowedRange (date, config) {
 
   if (isOutsideRange) {
     console.warn('Provided date', dayjs(date).format(), 'is outside specified start-and-end range', dayjs(config.start).format(), 'to', dayjs(config.end).format())
-    return config.start
+    return isStart ? config.start : config.end
   }
 
   return date
+}
+
+function sanitizeInitialValue (value, config) {
+  let isDateChosen = false
+  let chosen
+
+  if (config.isRangePicker) {
+    const [ from, to ] = value || []
+    isDateChosen = Boolean(from).valueOf() && Boolean(to).valueOf()
+    chosen = isDateChosen ? value : [ dayjs().toDate(), dayjs().add(1, 'day').toDate() ]
+  } else {
+    isDateChosen = Boolean(value).valueOf()
+    chosen = [ isDateChosen ? value : dayjs().toDate() ]
+  }
+
+  const [ from, to ] = chosen
+
+  return {
+    isDateChosen,
+    chosen: [
+      moveDateWithinAllowedRange(from, config, true),
+      ...config.isRangePicker && [ moveDateWithinAllowedRange(to, config, false) ]
+    ]
+  }
 }
 
 function setup (given, config) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  let selected = given
-  const dateChosen = Boolean(selected).valueOf()
-  if (!dateChosen) {
-    selected = config.isRangePicker ? [ dayjs().toDate(), dayjs().toDate() ] : dayjs().toDate()
-  }
-
-  const months = getMonths(config)
-
-  const [ preSelectedStart, preSelectedEnd ] = Array.isArray(selected) ? selected : [ selected, null ]
-  const givenDate = moveDateWithinAllowedRange(preSelectedStart, config)
-  const selectedStartDate = writable(givenDate)
+  const { isDateChosen, chosen: [ preSelectedStart, preSelectedEnd ] } = sanitizeInitialValue(given, config)
+  const selectedStartDate = writable(preSelectedStart)
   const selectedEndDate = writable(preSelectedEnd)
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable(DateView)
 
   return {
-    months,
+    months: getMonths(config),
     component,
     today,
     selectedStartDate,
@@ -50,7 +65,7 @@ function setup (given, config) {
     isClosing: writable(false),
     highlighted: writable(today),
     formatter,
-    isDateChosen: writable(dateChosen),
+    isDateChosen: writable(isDateChosen),
     resetView: () => {
       component.set(DateView)
     }
