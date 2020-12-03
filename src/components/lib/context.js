@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store'
-import DateView from '../view/date-view/DateView.svelte'
 import { createFormatter } from './formatter.js'
 import { dayjs } from './date-utils'
 
@@ -26,7 +25,7 @@ function sanitizeInitialValue (value, config) {
   if (config.isRangePicker) {
     const [ from, to ] = value || []
     isDateChosen = Boolean(from).valueOf() && Boolean(to).valueOf()
-    chosen = isDateChosen ? value : [ dayjs().toDate(), dayjs().add(1, 'day').toDate() ]
+    chosen = isDateChosen ? value : [ dayjs().toDate(), dayjs().add(1, 'month').toDate() ]
   } else {
     isDateChosen = Boolean(value).valueOf()
     chosen = [ isDateChosen ? value : dayjs().toDate() ]
@@ -51,7 +50,7 @@ function setup (given, config) {
   const selectedStartDate = writable(preSelectedStart)
   const selectedEndDate = writable(preSelectedEnd)
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
-  const component = writable(DateView)
+  const component = writable('date-view')
 
   return {
     months: getMonths(config),
@@ -67,7 +66,7 @@ function setup (given, config) {
     formatter,
     isDateChosen: writable(isDateChosen),
     resetView: () => {
-      component.set(DateView)
+      component.set('date-view')
     }
   }
 }

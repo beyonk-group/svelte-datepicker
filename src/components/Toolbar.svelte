@@ -6,8 +6,6 @@
 
 <script>
   import { getContext, createEventDispatcher } from 'svelte'
-  import DateView from './view/date-view/DateView.svelte'
-  import TimeView from './view/time-view/TimeView.svelte'
   import { contextKey } from './lib/context.js'
   import { dayjs } from './lib/date-utils.js'
   
@@ -42,13 +40,13 @@
   function progress () {
     swapDatesIfRequired()
     isDateChosen.set(false)
-    if ($component === DateView) {
+    if ($component === 'date-view') {
       if (config.isTimePicker) {
-        component.set(TimeView)
+        component.set('time-view')
       } else {
         finalise()
       }
-    } else if ($component === TimeView) {
+    } else if ($component === 'time-view') {
       finalise()
     }
   }

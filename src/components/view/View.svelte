@@ -1,13 +1,15 @@
 <div class="calendar" class:is-range-picker={config.isRangePicker} class:day={$isDaytime} class:night={!$isDaytime}>
   <svelte:component
     {viewContextKey}
-    this={$component}
+    this={$component === 'date-view' ? DateView : TimeView}
   />
 </div>
 
 <script>
   import { contextKey } from '../lib/context'
   import { getContext } from 'svelte'
+  import DateView from './date-view/DateView.svelte'
+  import TimeView from './time-view/TimeView.svelte'
 
   export let viewContextKey
 
