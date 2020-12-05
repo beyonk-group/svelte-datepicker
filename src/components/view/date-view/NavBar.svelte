@@ -64,30 +64,32 @@
 
 <div class="title">
   <div class="heading-section">
-    <div class="control" 
-      class:enabled={canDecrementMonth}
+    <button class="control" 
+      aria-label="Previous month"
+      disabled={!canDecrementMonth}
       on:click={() => incrementMonth(-1)}>
       <i class="arrow left"></i>
-    </div>
-    <div class="label" on:click={toggleMonthSelectorOpen}>
+    </button>
+    <button class="label" on:click={toggleMonthSelectorOpen}>
       <span>{dayjs.months()[$month]} {$year}</span>
-    </div> 
-    <div class="control"
-      class:enabled={canIncrementMonth}
+    </button> 
+    <button class="control"
+      aria-label="Next month"
+      disabled={!canIncrementMonth}
       on:click={() => incrementMonth(1)}>
       <i class="arrow right"></i>
-    </div>
+    </button>
   </div>
   <div class="month-selector" class:open={monthSelectorOpen}>
       {#each availableMonths as monthDefinition, index}
-        <div 
+        <button 
           class="month-selector--month" 
           class:selected={index === $month}
-          class:selectable={monthDefinition.selectable}
+          disabled={!monthDefinition.selectable}
           on:click={e => monthSelected(e, index)}
         >
           <span>{monthDefinition.abbrev}</span>
-        </div>
+        </button>
       {/each}
   </div>
 </div>
@@ -139,13 +141,14 @@
     height: 21.5%;
     display: inline-block;
     color: #4a4a4a;
+    background: none;
     border: 1px solid #efefef;
     opacity: 0.2;
   }
-  .month-selector--month.selectable { 
+  .month-selector--month:enabled { 
     opacity: 1; 
   }
-  .month-selector--month.selectable:hover { 
+  .month-selector--month:enabled:hover { 
     cursor: pointer;
     box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
   }
@@ -163,13 +166,17 @@
     vertical-align: middle; 
     display: inline-block;
   }
+  .control, .label {
+    background: none;
+    border: none;
+  }
   .control { 
     padding: 0 3px;
     opacity: 0.2;
     transform: translateY(3px);
   }
 
-  .control.enabled { 
+  .control:enabled { 
     opacity: 1; 
     cursor: pointer;
   }
