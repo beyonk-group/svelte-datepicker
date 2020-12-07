@@ -14,6 +14,7 @@
   const { config, component, selectedStartDate, selectedEndDate, isDateChosen } = getContext(contextKey)
 
   function swapDatesIfRequired () {
+    if (!config.isRangePicker) { return }
     const from = dayjs($selectedStartDate)
     const to = dayjs($selectedEndDate)
     if (to.isBefore(from)) {
@@ -30,6 +31,7 @@
         to: $selectedEndDate
       })
     } else {
+      console.log('date picked', $selectedStartDate)
       dispatch('date-chosen', {
         date: $selectedStartDate
       })
