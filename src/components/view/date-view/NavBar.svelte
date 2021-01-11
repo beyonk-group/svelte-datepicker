@@ -86,7 +86,7 @@
           class="month-selector--month" 
           class:selected={index === $month}
           disabled={!monthDefinition.selectable}
-          on:click={e => monthSelected(e, {monthDefinition, index})}
+          on:click={e => monthSelected(e, { monthDefinition, index })}
         >
           <span>{monthDefinition.abbrev}</span>
         </button>
