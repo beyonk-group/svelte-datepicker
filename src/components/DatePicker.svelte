@@ -71,7 +71,26 @@
     dispatch('open')
   }
 
-  $: selected = $isDateChosen && (config.isRangePicker ? [ $selectedStartDate, $selectedEndDate ] : $selectedStartDate)
+  $: {
+    if ($isDateChosen) {
+      selected = false
+    }
+
+    if (config.isRangePicker) {
+      selected = [ $selectedStartDate, $selectedEndDate ]
+      dispatch('range-selected', {
+        from: $selectedStartDate,
+        to: $selectedEndDate
+      })
+      dispatch('change')
+    } else {
+      selected = $selectedStartDate
+      dispatch('date-selected', {
+        date: $selectedStartDate
+      })
+      dispatch('change')
+    }
+  }
 </script>
 
 <style>
@@ -159,7 +178,7 @@
         />
         {/if}
       </div>
-      <Toolbar on:date-chosen on:range-chosen on:close={() => popover.close()} />
+      <Toolbar on:change on:close={() => popover.close()} />
     </div>
   </Popover>
 </div>

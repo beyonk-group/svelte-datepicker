@@ -79,9 +79,17 @@
             </Route>
             <Route path="/without-time/*">
               <h2>Without Time Choice</h2>
-              <Route path="/">
+              <Route path="/*">
+                <Route path="/">
+                  <div class="demo">
+                    <DatePicker format='ddd, DD MMM YYYY' />
+                  </div>
+                </Route>
+              </Route>
+              <Route path="/*">
                 <div class="demo">
                   <DatePicker format='ddd, DD MMM YYYY' />
+                </div>
               </Route>
             </Route>
             <Route path="/with-time/*">
@@ -91,12 +99,7 @@
               <Route path="/">
                 <div class="demo">
                   <DatePicker format='ddd, DD MMM YYYY HH:mm' time={true} />
-              </Route>
-              <Route path="/with-minute-step">
-                <h2>With Minute Step</h2>
-                <p>Increment and decrement minutes by 15 rather than the default 5</p>
-                <div class="demo">
-                  <DatePicker minuteStep={15} format='ddd, DD MMM YYYY HH:mm' time={true} />
+                </div>
               </Route>
               <Route path="/with-selected-date">
                 <h3>With Selected Date</h3>
@@ -105,6 +108,7 @@
                   format='ddd, DD MMM YYYY HH:mm'
                   selected={dayjs('2020-04-20T16:15:33.000Z').toDate()}
                   time={true} />
+                </div>
               </Route>
             </Route>
             <Route path="/with-events">
@@ -112,36 +116,36 @@
               <div class="demo">
                 <DatePicker
                   format='ddd, DD MMM YYYY'
-                  time={true}
-                  on:date-chosen={e => {
+                  bind:selected={firedEventsValue}
+                  on:change={e => {
                     firedEvents = [
                       ...firedEvents,
-                      `Picked date ${e.detail.date}`
+                      `Picked date ${e.detail.date} (${firedEventsValue})`
                     ]
                   }}
                 />
               </div>
               <ul>
-              {#each firedEvents as fired}
-              <li>{fired}</li>
-              {:else}
-              <li>Pick date to see events</li>
-              {/each}
+                {#each firedEvents as fired}
+                <li>{fired}</li>
+                {:else}
+                <li>Pick date to see events</li>
+                {/each}
               </ul>
             </Route>
             <Route path="/with-custom-button">
               <h3>With Custom Button</h3>
               <div class="demo">
                 <DatePicker
-                bind:selected={customSelected}>
-                <button class="custom-button">
-                  {#if customSelected}
-                    Beach Time! {dayjs(customSelected).fromNow()}
-                  {:else}
-                    Beach Time?
-                  {/if}
-                </button>
-              </DatePicker>
+                  bind:selected={customSelected}>
+                  <button class="custom-button">
+                    {#if customSelected}
+                      Beach Time! {dayjs(customSelected).fromNow()}
+                    {:else}
+                      Beach Time?
+                    {/if}
+                  </button>
+                </DatePicker>
               </div>
               <p>* Beach Time <a href="https://codepen.io/merkund">by merkund</a></p>
             </Route>
@@ -190,7 +194,7 @@
                   format='ddd, DD MMM YYYY'
                   range={true}
                   time={true}
-                  on:range-chosen={e => {
+                  on:change={e => {
                     firedEvents = [
                       ...firedEvents,
                       `Picked range ${e.detail.from} to ${e.detail.to}`
@@ -243,6 +247,7 @@
   dayjs.extend(relativeTime)
 
   let firedEvents = []
+  let firedEventsValue = null
   let customSelected = null
 </script>
 

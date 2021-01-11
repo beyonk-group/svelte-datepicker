@@ -25,17 +25,6 @@
 
   function finalise () {
     isDateChosen.set(true)
-    if (config.isRangePicker) {
-      dispatch('range-chosen', {
-        from: $selectedStartDate,
-        to: $selectedEndDate
-      })
-    } else {
-      console.log('date picked', $selectedStartDate)
-      dispatch('date-chosen', {
-        date: $selectedStartDate
-      })
-    }
     dispatch('close')
   }
 
