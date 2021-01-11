@@ -70,25 +70,28 @@
     highlighted.set(new Date($selectedStartDate))
     dispatch('open')
   }
+  
+  function setRangeValue () {
+    selected = [ $selectedStartDate, $selectedEndDate ]
+    dispatch('range-selected', {
+      from: $selectedStartDate,
+      to: $selectedEndDate
+    })
+  }
+
+  function setDateValue () {
+    selected = $selectedStartDate
+    dispatch('date-selected', {
+      date: $selectedStartDate
+    })
+  }
 
   $: {
     if ($isDateChosen) {
-      selected = false
-    }
-
-    if (config.isRangePicker) {
-      selected = [ $selectedStartDate, $selectedEndDate ]
-      dispatch('range-selected', {
-        from: $selectedStartDate,
-        to: $selectedEndDate
-      })
+      config.isRangePicker ? setRangeValue() : setDateValue()
       dispatch('change')
     } else {
-      selected = $selectedStartDate
-      dispatch('date-selected', {
-        date: $selectedStartDate
-      })
-      dispatch('change')
+      selected = null
     }
   }
 </script>
