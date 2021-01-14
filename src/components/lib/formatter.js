@@ -1,10 +1,9 @@
-import { dayjs } from './date-utils'
 import { derived } from 'svelte/store'
 
 function createFormatter (selectedStartDate, selectedEndDate, config) {
   const formatter = derived([ selectedStartDate, selectedEndDate ], ([ $selectedStartDate, $selectedEndDate ]) => {
-    const formattedSelected = $selectedStartDate && dayjs($selectedStartDate).format(config.format)
-    const formattedSelectedEnd = config.isRangePicker && $selectedEndDate && dayjs($selectedEndDate).format(config.format)
+    const formattedSelected = $selectedStartDate && $selectedStartDate.format(config.format)
+    const formattedSelectedEnd = config.isRangePicker && $selectedEndDate && $selectedEndDate.format(config.format)
 
     return {
       formattedSelected,

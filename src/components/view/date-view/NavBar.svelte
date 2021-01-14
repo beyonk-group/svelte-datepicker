@@ -5,15 +5,15 @@
 
   export let viewContextKey
 
-  const { months, config, highlighted, endMonth, endYear, startMonth, startYear } = getContext(contextKey)
-  const { isStart, year, month, monthView } = getContext(viewContextKey)
+  const { months, config, highlighted, displayedStartDate, displayedEndDate } = getContext(contextKey)
+  const { isStart, displayedDate, monthView } = getContext(viewContextKey)
 
   let monthSelectorOpen = false
   let availableMonths
 
   $: {
-    const isOnLowerBoundary = config.start.getFullYear() === $year
-    const isOnUpperBoundary = config.end.getFullYear() === $year
+    const isOnLowerBoundary = config.start.isSame($displayedDate, 'year')
+    const isOnUpperBoundary = config.end.isSame($displayedDate, 'year')
     availableMonths = dayjs.months().map((m, i) => {
       return Object.assign({}, {
         name: m,
@@ -22,32 +22,30 @@
         selectable:
           (!isOnLowerBoundary && !isOnUpperBoundary) ||
         (
-          (!isOnLowerBoundary || i >= config.start.getMonth()) &&
-          (!isOnUpperBoundary || i <= config.end.getMonth())
+          (!isOnLowerBoundary || i >= config.start.month()) &&
+          (!isOnUpperBoundary || i <= config.end.year())
         )
       })
     })
   }
 
-  $: myPosition = ($year * 12) + $month
-  $: startPosition = ($startYear * 12) + $startMonth
-  $: endPosition = ($endYear * 12) + $endMonth
+  $: myPosition = dayjs($displayedDate).diff('0000-00-00', 'month')
+  $: startPosition = dayjs($displayedStartDate).diff('0000-00-00', 'month')
+  $: endPosition = dayjs($displayedEndDate).diff('0000-00-00', 'month')
   $: canIncrementMonth = ($monthView.monthIndex < months.length - 1) && (config.isRangePicker && isStart ? myPosition < endPosition : true)
   $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > startPosition : true)
 
   function changeMonth (selectedMonth) {
     month.set(selectedMonth)
-    highlighted.set(new Date($year, $month, 1))
+    highlighted.set($displayedDate)
   }
 
   function incrementMonth (direction, day = 1) {
     if (direction === 1 && !canIncrementMonth) return
     if (direction === -1 && !canDecrementMonth) return
-    const current = new Date($year, $month, 1)
-    current.setMonth(current.getMonth() + direction)
-    month.set(current.getMonth())
-    year.set(current.getFullYear())
-    highlighted.set(new Date($year, $month, day))
+
+    displayedDate.update(d => d.add(direction, 'months'))
+    highlighted.set($displayedDate)
   }
 
   function toggleMonthSelectorOpen () {
@@ -71,7 +69,7 @@
       <i class="arrow left"></i>
     </button>
     <button class="label" on:click={toggleMonthSelectorOpen}>
-      <span>{dayjs.months()[$month]} {$year}</span>
+      <span>{$displayedDate.format('MMMM YYYY')}</span>
     </button> 
     <button class="control"
       aria-label="Next month"
@@ -84,7 +82,7 @@
       {#each availableMonths as monthDefinition, index}
         <button 
           class="month-selector--month" 
-          class:selected={index === $month}
+          class:selected={index === $displayedDate.month()}
           disabled={!monthDefinition.selectable}
           on:click={e => monthSelected(e, { monthDefinition, index })}
         >

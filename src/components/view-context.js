@@ -4,12 +4,14 @@ import { dayjs } from './lib/date-utils'
 import DateView from './view/date-view/DateView.svelte'
 import { derived } from 'svelte/store'
 
-function createMonthView (months, year, month) {
+function createMonthView (months, displayedDate) {
   let monthIndex = 0
 
-  return derived([ year, month ], ([ $year, $month ]) => {
+  return derived([ displayedDate ], ([ $displayedDate ]) => {
+    const month = $displayedDate.month()
+    const year = $displayedDate.year()
     for (let i = 0; i < months.length; i += 1) {
-      if (months[i].month === $month && months[i].year === $year) {
+      if (months[i].month === month && months[i].year === year) {
         monthIndex = i
       }
     }
@@ -21,7 +23,7 @@ function createMonthView (months, year, month) {
   })
 }
 
-function createViewContext (isStart, date, year, month, months, config) {
+function createViewContext (isStart, date, displayedDate, months, config) {
   const isDaytime = derived(date, $date => {
     if (!$date) { return true }
     const [ h ] = dayjs($date).format('HH:mm').split(':').map(d => parseInt(d))
@@ -33,9 +35,8 @@ function createViewContext (isStart, date, year, month, months, config) {
     view: DateView,
     date,
     isDaytime,
-    year,
-    month,
-    monthView: createMonthView(months, year, month)
+    displayedDate,
+    monthView: createMonthView(months, displayedDate)
   }
 }
 

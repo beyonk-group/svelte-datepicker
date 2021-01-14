@@ -1,56 +1,54 @@
 import { dayjs } from './date-utils'
 
-const getCalendarPage = (month, year, dayProps, weekStart) => {
-  const date = new Date(year, month, 1)
-  date.setDate(date.getDate() - date.getDay() + weekStart)
-  const nextMonth = month === 11 ? 0 : month + 1
-  // ensure days starts on Sunday
-  // and end on saturday
+function getCalendarPage (date, dayProps) {
+  const displayedRangeStart = date.startOf('month').startOf('week')
+  const displayedRangeEnd = date.endOf('month').endOf('week').add(1, 'day')
+
   const weeks = []
-  while (date.getMonth() !== nextMonth || date.getDay() !== weekStart || weeks.length !== 6) {
-    if (date.getDay() === weekStart) weeks.unshift({ days: [], id: `${year}${month}${year}${weeks.length}` })
-    const checkStartDate = new Date(date.getTime())
-    const checkEndDate = new Date(date.getTime())
-    checkStartDate.setDate(checkStartDate.getDate() - 1)
-    checkEndDate.setDate(checkEndDate.getDate() + 1)
-    const updated = Object.assign({
-      partOfMonth: date.getMonth() === month,
-      firstOfMonth: checkStartDate.getMonth() !== date.getMonth(),
-      lastOfMonth: checkEndDate.getMonth() !== date.getMonth(),
-      day: date.getDate(),
-      month: date.getMonth(),
-      year: date.getFullYear(),
-      date: new Date(date)
-    }, dayProps(date))
-    weeks[0].days.push(updated)
-    date.setDate(date.getDate() + 1)
+  let currentDay = displayedRangeStart
+  while (currentDay.isBefore(displayedRangeEnd, 'day')) {
+    const weekOfMonth = Math.floor(currentDay.diff(displayedRangeStart, 'days') / 7)
+    const isRequestedMonth = currentDay.isSame(date, 'month')
+    weeks[weekOfMonth] = weeks[weekOfMonth] || { days: [], id: `${currentDay.format('YYYYMMYYYY')}${weekOfMonth}` }
+    weeks[weekOfMonth].days.push(
+      Object.assign({
+        partOfMonth: isRequestedMonth,
+        firstOfMonth: isRequestedMonth && currentDay.date() === 1,
+        lastOfMonth: isRequestedMonth && currentDay.date() === date.daysInMonth(),
+        day: currentDay.date(),
+        month: currentDay.month(),
+        year: currentDay.year(),
+        date: currentDay
+      }, dayProps(currentDay))
+    )
+    currentDay = currentDay.add(1, 'day')
   }
-  weeks.reverse()
-  return { month, year, weeks }
+
+  return { month: date.month(), year: date.year(), weeks }
 }
 
 function getDayPropsHandler (start, end, selectableCallback) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = dayjs().startOf('day')
   return date => {
-    const isInRange = date >= start && date <= end
+    const given = date.toDate()
+    const isInRange = given >= start.toDate() && given <= end.toDate()
     return {
       isInRange,
-      selectable: isInRange && (!selectableCallback || selectableCallback(date)),
-      isToday: date.getTime() === today.getTime()
+      selectable: isInRange && (!selectableCallback || selectableCallback(given)),
+      isToday: given.valueOf() === today.valueOf()
     }
   }
 }
 
 function getMonths (config) {
   const { start, end, selectableCallback } = config
-  const firstDay = dayjs(start).startOf('month').startOf('day')
-  const lastDay = dayjs(end).startOf('month').startOf('day')
+  const firstDay = start.startOf('month').startOf('day')
+  const lastDay = end.startOf('month').startOf('day')
   const months = []
+  const dayPropsHandler = getDayPropsHandler(firstDay, lastDay, selectableCallback)
   let date = dayjs(firstDay)
-  const dayPropsHandler = getDayPropsHandler(firstDay.toDate(), lastDay.toDate(), selectableCallback)
   while (date.isBefore(lastDay)) {
-    months.push(getCalendarPage(date.month(), date.year(), dayPropsHandler, dayjs.localeData().firstDayOfWeek()))
+    months.push(getCalendarPage(date, dayPropsHandler))
     date = date.add(1, 'month')
   }
   return months

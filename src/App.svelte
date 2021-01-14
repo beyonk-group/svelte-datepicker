@@ -117,10 +117,16 @@
                 <DatePicker
                   format='ddd, DD MMM YYYY'
                   bind:selected={firedEventsValue}
-                  on:change={e => {
+                  on:date-selected={e => {
                     firedEvents = [
                       ...firedEvents,
                       `Picked date ${e.detail.date} (${firedEventsValue})`
+                    ]
+                  }}
+                  on:change={e => {
+                    firedEvents = [
+                      ...firedEvents,
+                      `Change fired`
                     ]
                   }}
                 />
@@ -194,10 +200,16 @@
                   format='ddd, DD MMM YYYY'
                   range={true}
                   time={true}
-                  on:change={e => {
+                  on:range-selected={e => {
                     firedEvents = [
                       ...firedEvents,
                       `Picked range ${e.detail.from} to ${e.detail.to}`
+                    ]
+                  }}
+                  on:change={e => {
+                    firedEvents = [
+                      ...firedEvents,
+                      'Change fired'
                     ]
                   }}
                 />

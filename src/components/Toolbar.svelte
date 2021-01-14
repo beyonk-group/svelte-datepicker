@@ -15,11 +15,11 @@
 
   function swapDatesIfRequired () {
     if (!config.isRangePicker) { return }
-    const from = dayjs($selectedStartDate)
-    const to = dayjs($selectedEndDate)
+    const from = $selectedStartDate
+    const to = $selectedEndDate
     if (to.isBefore(from)) {
-      selectedStartDate.set(to.toDate())
-      selectedEndDate.set(from.toDate())
+      selectedStartDate.set(to)
+      selectedEndDate.set(from)
     }
   }
 

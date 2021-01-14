@@ -2,12 +2,12 @@ import { dayjs } from './date-utils'
 
 function moveDateWithinAllowedRange (date, config, isStart) {
   const isOutsideRange = (
-    date.getTime() < config.start.getTime() ||
-    date.getTime() > config.end.getTime()
+    date.valueOf() < config.start.valueOf() ||
+    date.valueOf() > config.end.valueOf()
   )
 
   if (isOutsideRange) {
-    console.warn('Provided date', dayjs(date).format(), 'is outside specified start-and-end range', dayjs(config.start).format(), 'to', dayjs(config.end).format())
+    console.warn('Provided date', date.format(), 'is outside specified start-and-end range', config.start.format(), 'to', config.end.format())
     return isStart ? config.start : config.end
   }
 
@@ -21,10 +21,10 @@ function sanitizeInitialValue (value, config) {
   if (config.isRangePicker) {
     const [ from, to ] = value || []
     isDateChosen = Boolean(from).valueOf() && Boolean(to).valueOf()
-    chosen = isDateChosen ? value : [ dayjs().toDate(), dayjs().add(1, 'month').toDate() ]
+    chosen = isDateChosen ? value.map(dayjs) : [ dayjs(), dayjs().add(1, 'month') ]
   } else {
     isDateChosen = Boolean(value).valueOf()
-    chosen = [ isDateChosen ? value : dayjs().toDate() ]
+    chosen = [ isDateChosen ? dayjs(value) : dayjs() ]
   }
 
   const [ from, to ] = chosen

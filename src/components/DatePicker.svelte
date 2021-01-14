@@ -11,8 +11,8 @@
   export let range = false
   export let placeholder = 'Choose Date'
   export let format = 'DD / MM / YYYY'
-  export let start = dayjs().subtract(1, 'year').toDate()
-  export let end = dayjs().add(1, 'year').toDate()
+  export let start = dayjs().subtract(1, 'year')
+  export let end = dayjs().add(1, 'year')
   export let trigger = null
   export let selectableCallback = null
   export let styling = new CalendarStyle()
@@ -45,10 +45,8 @@
   const {
     selectedStartDate,
     selectedEndDate,
-    startYear,
-    startMonth,
-    endYear,
-    endMonth,
+    displayedStartDate,
+    displayedEndDate,
     isOpen,
     isClosing,
     highlighted,
@@ -57,32 +55,31 @@
     isDateChosen
   } = getContext(contextKey)
 
-
-  setContext(startContextKey, createViewContext(true, selectedStartDate, startYear, startMonth, months, config))
+  setContext(startContextKey, createViewContext(true, selectedStartDate, displayedStartDate, months, config))
 
   if (config.isRangePicker) {
-    setContext(endContextKey, createViewContext(false, selectedEndDate, endYear, endMonth, months, config))
+    setContext(endContextKey, createViewContext(false, selectedEndDate, displayedEndDate, months, config))
   }
 
   let popover
 
   function initialisePicker () {
-    highlighted.set(new Date($selectedStartDate))
+    highlighted.set($selectedStartDate)
     dispatch('open')
   }
   
   function setRangeValue () {
     selected = [ $selectedStartDate, $selectedEndDate ]
     dispatch('range-selected', {
-      from: $selectedStartDate,
-      to: $selectedEndDate
+      from: $selectedStartDate.toDate(),
+      to: $selectedEndDate.toDate()
     })
   }
 
   function setDateValue () {
-    selected = $selectedStartDate
+    selected = $selectedStartDate.toDate()
     dispatch('date-selected', {
-      date: $selectedStartDate
+      date: $selectedStartDate.toDate()
     })
   }
 

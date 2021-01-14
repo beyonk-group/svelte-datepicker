@@ -1,5 +1,5 @@
 <script>
-  import { areDatesEquivalent, isDateBetweenSelected } from './date-comparison.js'
+  import { isDateBetweenSelected } from './date-comparison.js'
   import { fly } from 'svelte/transition'
   import { createEventDispatcher, getContext } from 'svelte'
   import { contextKey } from '../../lib/context'
@@ -26,8 +26,8 @@
       class:outside-month={!day.partOfMonth}
       class:first-of-month={day.firstOfMonth}
       class:last-of-month={day.lastOfMonth}
-      class:selection-start={isStart && areDatesEquivalent(day.date, $date)}
-      class:selection-end={config.isRangePicker && !isStart && areDatesEquivalent(day.date, $date)}
+      class:selection-start={isStart && day.date.isSame($date)}
+      class:selection-end={config.isRangePicker && !isStart && day.date.isSame($date)}
       class:part-of-range={
         config.isRangePicker &&
           (
@@ -40,13 +40,13 @@
     >
       <button 
         class="day--label" 
-        class:highlighted={areDatesEquivalent(day.date, $highlighted)}
-        class:shake-date={$shouldShakeDate && areDatesEquivalent(day.date, $shouldShakeDate)}
+        class:highlighted={day.date.isSame($highlighted)}
+        class:shake-date={$shouldShakeDate && day.date.isSame($shouldShakeDate)}
         class:disabled={!day.selectable}
         type="button"
         on:click|stopPropagation={() => dispatch('chosen', { date: day.date })}
       >
-        {day.date.getDate()}
+        {day.date.date()}
       </button>
     </div>
   {/each}
@@ -109,7 +109,7 @@
     height: 32px;
     position: relative;
     border: 1px solid var(--button-background-color);
-    border-radius: 50%; 
+    border-radius: 50%;
     align-items: center;
     background: var(--day-background-color);
     cursor: pointer;
@@ -149,6 +149,12 @@
   .day.is-range-picker.selection-start:before, 
   .day.is-range-picker.selection-end:before {
     background-color: var(--passive-highlight-color);
+  }
+  .day.selection-start .day--label {
+    border-radius: 50% 0 0 50%;
+  }
+  .day.selection-end .day--label {
+    border-radius: 0 50% 50% 0;
   }
   .day.selection-start:before, 
   .day.selection-end:before {

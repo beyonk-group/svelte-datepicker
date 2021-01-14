@@ -2,19 +2,12 @@ import { writable } from 'svelte/store'
 import { createFormatter } from './formatter.js'
 import { getMonths } from './calendar.js'
 import { sanitizeInitialValue } from './sanitization.js'
+import { dayjs } from './date-utils.js'
 
 const contextKey = {}
 
-function getNavBarStores (date) {
-  return [
-    writable(date.getFullYear()),
-    writable(date.getMonth())
-  ]
-}
-
 function setup (given, config) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = dayjs().startOf('day')
 
   const { isDateChosen, chosen: [ preSelectedStart, preSelectedEnd ] } = sanitizeInitialValue(given, config)
   const selectedStartDate = writable(preSelectedStart)
@@ -22,19 +15,14 @@ function setup (given, config) {
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable('date-view')
 
-  const [ startYear, startMonth ] = getNavBarStores(preSelectedStart)
-  const [ endYear, endMonth ] = config.isRangePicker ? getNavBarStores(preSelectedEnd) : []
-
   return {
     months: getMonths(config),
     component,
     today,
     selectedStartDate,
     selectedEndDate,
-    startYear,
-    startMonth,
-    endYear,
-    endMonth,
+    displayedStartDate: writable(preSelectedStart),
+    displayedEndDate: config.isRangePicker ? writable(preSelectedEnd) : null,
     config,
     shouldShakeDate: writable(false),
     isOpen: writable(false),

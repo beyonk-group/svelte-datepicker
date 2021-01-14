@@ -16,7 +16,6 @@
   import Chevron from './Chevron.svelte'
   import { timeInput } from './time-input.js'
   import { createStore } from './time-store.js'
-  import { dayjs } from '../../lib/date-utils.js'
 
   export let viewContextKey
 
@@ -26,7 +25,7 @@
 
   onMount(() => timeStore.subscribe(ts => {
     const [ d, m ] = ts.split(':').map(g => parseInt(g))
-    date.update(v => dayjs(v).hour(d).minute(m).toDate())
+    date.update(v => v.hour(d).minute(m))
   }))
 </script>
 

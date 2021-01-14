@@ -17,21 +17,19 @@
   import NavBar from './NavBar.svelte'
   import { checkIfVisibleDateIsSelectable, shakeDate } from './feedback.js'
   import { contextKey } from '../../lib/context.js'
-  import { dayjs } from '../../lib/date-utils.js'
   import { getContext } from 'svelte'
 
   export let viewContextKey
 
-  const { date, year, month, isStart } = getContext(viewContextKey)
+  const { date, displayedDate, isStart } = getContext(viewContextKey)
   const { months, shouldShakeDate, config, selectedStartDate, selectedEndDate } = getContext(contextKey)
 
-  $: visibleMonthsId = $year + $month / 100
+  $: visibleMonthsId = $displayedDate.unix()
 
   function violatesRange (chosen) {
     if (!config.isRangePicker) { return false }
-    const date = dayjs(chosen)
-    const startsAfterEnd = isStart && date.isAfter($selectedEndDate)
-    const endsBeforeStart = !isStart && date.isBefore($selectedStartDate)
+    const startsAfterEnd = isStart && chosen.isAfter($selectedEndDate)
+    const endsBeforeStart = !isStart && chosen.isBefore($selectedStartDate)
 
     return startsAfterEnd || endsBeforeStart
   }

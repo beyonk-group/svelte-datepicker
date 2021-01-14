@@ -5,9 +5,9 @@ let shakeHighlightTimeout
 function checkIfVisibleDateIsSelectable (months, date) {
   const proposedDay = getDay(
     months,
-    date.getMonth(),
-    date.getDate(),
-    date.getFullYear()
+    date.month(),
+    date.date(),
+    date.year()
   )
   return proposedDay && proposedDay.selectable
 }
