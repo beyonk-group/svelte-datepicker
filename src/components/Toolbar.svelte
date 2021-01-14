@@ -7,21 +7,10 @@
 <script>
   import { getContext, createEventDispatcher } from 'svelte'
   import { contextKey } from './lib/context.js'
-  import { dayjs } from './lib/date-utils.js'
   
   const dispatch = createEventDispatcher()
 
   const { config, component, selectedStartDate, selectedEndDate, isDateChosen } = getContext(contextKey)
-
-  function swapDatesIfRequired () {
-    if (!config.isRangePicker) { return }
-    const from = $selectedStartDate
-    const to = $selectedEndDate
-    if (to.isBefore(from)) {
-      selectedStartDate.set(to)
-      selectedEndDate.set(from)
-    }
-  }
 
   function finalise () {
     isDateChosen.set(true)
@@ -29,7 +18,6 @@
   }
 
   function progress () {
-    swapDatesIfRequired()
     isDateChosen.set(false)
     if ($component === 'date-view') {
       if (config.isTimePicker) {

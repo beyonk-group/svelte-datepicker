@@ -32,8 +32,8 @@
   $: myPosition = dayjs($displayedDate).diff('0000-00-00', 'month')
   $: startPosition = dayjs($displayedStartDate).diff('0000-00-00', 'month')
   $: endPosition = dayjs($displayedEndDate).diff('0000-00-00', 'month')
-  $: canIncrementMonth = ($monthView.monthIndex < months.length - 1) && (config.isRangePicker && isStart ? myPosition < endPosition : true)
-  $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > startPosition : true)
+  $: canIncrementMonth = ($monthView.monthIndex < months.length - 1) && (config.isRangePicker && isStart ? myPosition < (endPosition - 1) : true)
+  $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > (startPosition + 1) : true)
 
   function changeMonth (selectedMonth) {
     month.set(selectedMonth)

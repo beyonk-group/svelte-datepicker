@@ -2,6 +2,7 @@
   <svelte:component
     {viewContextKey}
     this={$component === 'date-view' ? DateView : TimeView}
+    on:chosen
   />
 </div>
 

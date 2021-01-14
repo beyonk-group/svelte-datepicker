@@ -17,29 +17,22 @@
   import NavBar from './NavBar.svelte'
   import { checkIfVisibleDateIsSelectable, shakeDate } from './feedback.js'
   import { contextKey } from '../../lib/context.js'
-  import { getContext } from 'svelte'
+  import { getContext, createEventDispatcher } from 'svelte'
 
   export let viewContextKey
 
-  const { date, displayedDate, isStart } = getContext(viewContextKey)
-  const { months, shouldShakeDate, config, selectedStartDate, selectedEndDate } = getContext(contextKey)
+  const dispatch = createEventDispatcher()
+  const { displayedDate } = getContext(viewContextKey)
+  const { months, shouldShakeDate } = getContext(contextKey)
 
   $: visibleMonthsId = $displayedDate.unix()
 
-  function violatesRange (chosen) {
-    if (!config.isRangePicker) { return false }
-    const startsAfterEnd = isStart && chosen.isAfter($selectedEndDate)
-    const endsBeforeStart = !isStart && chosen.isBefore($selectedStartDate)
-
-    return startsAfterEnd || endsBeforeStart
-  }
-
   function registerSelection (chosen) {
-    if (!checkIfVisibleDateIsSelectable(months, chosen) || violatesRange(chosen)) {
+    if (!checkIfVisibleDateIsSelectable(months, chosen)) {
       return shakeDate(shouldShakeDate, chosen)
     }
 
-    date.set(chosen)
+    dispatch('chosen', { date: chosen })
     return true
   }
 </script>

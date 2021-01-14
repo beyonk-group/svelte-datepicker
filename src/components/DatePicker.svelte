@@ -45,20 +45,18 @@
   const {
     selectedStartDate,
     selectedEndDate,
-    displayedStartDate,
-    displayedEndDate,
     isOpen,
     isClosing,
     highlighted,
     formatter,
-    months,
-    isDateChosen
+    isDateChosen,
+    isSelectingFirstDate
   } = getContext(contextKey)
 
-  setContext(startContextKey, createViewContext(true, selectedStartDate, displayedStartDate, months, config))
+  setContext(startContextKey, createViewContext(true, getContext(contextKey)))
 
   if (config.isRangePicker) {
-    setContext(endContextKey, createViewContext(false, selectedEndDate, displayedEndDate, months, config))
+    setContext(endContextKey, createViewContext(false, getContext(contextKey)))
   }
 
   let popover
@@ -81,6 +79,27 @@
     dispatch('date-selected', {
       date: $selectedStartDate.toDate()
     })
+  }
+
+  function swapDatesIfRequired () {
+    if (!config.isRangePicker) { return }
+    const from = $selectedStartDate
+    const to = $selectedEndDate
+    if (to.isBefore(from)) {
+      selectedStartDate.set(to)
+      selectedEndDate.set(from)
+    }
+  }
+
+  function addDate (e) {
+    const { date } = e.detail
+    if ($isSelectingFirstDate) {
+      selectedStartDate.set(date)
+    } else {
+      selectedEndDate.set(date)
+    }
+    swapDatesIfRequired()
+    config.isRangePicker && isSelectingFirstDate.update(v => !v)
   }
 
   $: {
@@ -169,11 +188,13 @@
       <div class="view">
         <View
           viewContextKey={startContextKey}
+          on:chosen={addDate}
           on:close={() => popover.close()}
         />
         {#if config.isRangePicker}
         <View
           viewContextKey={endContextKey}
+          on:chosen={addDate}
           on:close={() => popover.close()}
         />
         {/if}

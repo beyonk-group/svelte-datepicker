@@ -32,7 +32,8 @@ function setup (given, config) {
     isDateChosen: writable(isDateChosen),
     resetView: () => {
       component.set('date-view')
-    }
+    },
+    isSelectingFirstDate: writable(true)
   }
 }
 

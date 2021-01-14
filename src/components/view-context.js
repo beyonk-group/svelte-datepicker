@@ -23,7 +23,9 @@ function createMonthView (months, displayedDate) {
   })
 }
 
-function createViewContext (isStart, date, displayedDate, months, config) {
+function createViewContext (isStart, mainContext) {
+  const { config, months, displayedStartDate, displayedEndDate, selectedStartDate, selectedEndDate } = mainContext
+  const [ date, displayedDate ] = isStart ? [ selectedStartDate, displayedStartDate ] : [ selectedEndDate, displayedEndDate ]
   const isDaytime = derived(date, $date => {
     if (!$date) { return true }
     const [ h ] = dayjs($date).format('HH:mm').split(':').map(d => parseInt(d))
@@ -32,8 +34,8 @@ function createViewContext (isStart, date, displayedDate, months, config) {
 
   return {
     isStart,
-    view: DateView,
     date,
+    view: DateView,
     isDaytime,
     displayedDate,
     monthView: createMonthView(months, displayedDate)

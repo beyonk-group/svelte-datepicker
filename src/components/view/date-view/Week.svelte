@@ -150,10 +150,10 @@
   .day.is-range-picker.selection-end:before {
     background-color: var(--passive-highlight-color);
   }
-  .day.selection-start .day--label {
+  .day.is-range-picker.selection-start .day--label {
     border-radius: 50% 0 0 50%;
   }
-  .day.selection-end .day--label {
+  .day.is-range-picker.selection-end .day--label {
     border-radius: 0 50% 50% 0;
   }
   .day.selection-start:before, 
