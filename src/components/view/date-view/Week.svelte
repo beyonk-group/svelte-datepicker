@@ -9,11 +9,10 @@
   export let direction
 
   const { config, shouldShakeDate, highlighted, selectedStartDate, selectedEndDate } = getContext(contextKey)
-  const { isStart, date, isDaytime } = getContext(viewContextKey)
+  const { isDaytime } = getContext(viewContextKey)
 
   const dispatch = createEventDispatcher()
 </script>
-
 <div 
   class="week" 
   in:fly|local={{ x: direction * 50, duration: 180, delay: 90 }}
@@ -26,22 +25,16 @@
       class:outside-month={!day.partOfMonth}
       class:first-of-month={day.firstOfMonth}
       class:last-of-month={day.lastOfMonth}
-      class:selection-start={isStart && day.date.isSame($date)}
-      class:selection-end={config.isRangePicker && !isStart && day.date.isSame($date)}
-      class:part-of-range={
-        config.isRangePicker &&
-          (
-            /* eslint-disable no-mixed-operators */
-            isStart && isDateBetweenSelected($date, $selectedEndDate, day.date) ||
-            !isStart && isDateBetweenSelected($selectedStartDate, $date, day.date)
-          )}
+      class:selection-start={day.date.isSame($selectedStartDate, 'day')}
+      class:selection-end={config.isRangePicker && day.date.isSame($selectedEndDate, 'day')}
+      class:part-of-range={config.isRangePicker && isDateBetweenSelected($selectedStartDate, $selectedEndDate, day.date)}
       class:is-today={day.isToday}
       class:is-disabled={!day.selectable}
     >
       <button 
         class="day--label" 
-        class:highlighted={day.date.isSame($highlighted)}
-        class:shake-date={$shouldShakeDate && day.date.isSame($shouldShakeDate)}
+        class:highlighted={day.date.isSame($highlighted, 'day')}
+        class:shake-date={$shouldShakeDate && day.date.isSame($shouldShakeDate, 'day')}
         class:disabled={!day.selectable}
         type="button"
         on:click|stopPropagation={() => dispatch('chosen', { date: day.date })}
@@ -150,10 +143,10 @@
   .day.is-range-picker.selection-end:before {
     background-color: var(--passive-highlight-color);
   }
-  .day.is-range-picker.selection-start .day--label {
+  .day.is-range-picker.selection-start:not(.selection-end) .day--label {
     border-radius: 50% 0 0 50%;
   }
-  .day.is-range-picker.selection-end .day--label {
+  .day.is-range-picker.selection-end:not(.selection-start) .day--label {
     border-radius: 0 50% 50% 0;
   }
   .day.selection-start:before, 

@@ -86,11 +86,6 @@
                   </div>
                 </Route>
               </Route>
-              <Route path="/*">
-                <div class="demo">
-                  <DatePicker format='ddd, DD MMM YYYY' />
-                </div>
-              </Route>
             </Route>
             <Route path="/with-time/*">
               <Route path="/*">
@@ -107,6 +102,15 @@
                   <DatePicker
                   format='ddd, DD MMM YYYY HH:mm'
                   selected={dayjs('2020-04-20T16:15:33.000Z').toDate()}
+                  time={true} />
+                </div>
+              </Route>
+              <Route path="/with-minute-step">
+                <h3>With Minute Step</h3>
+                <div class="demo">
+                  <DatePicker
+                  format='ddd, DD MMM YYYY HH:mm'
+                  minuteStep={15}
                   time={true} />
                 </div>
               </Route>

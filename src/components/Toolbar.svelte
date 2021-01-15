@@ -10,7 +10,7 @@
   
   const dispatch = createEventDispatcher()
 
-  const { config, component, selectedStartDate, selectedEndDate, isDateChosen } = getContext(contextKey)
+  const { config, component, isDateChosen } = getContext(contextKey)
 
   function finalise () {
     isDateChosen.set(true)
