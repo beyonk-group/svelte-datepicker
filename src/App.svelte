@@ -130,7 +130,7 @@
                   on:change={e => {
                     firedEvents = [
                       ...firedEvents,
-                      `Change fired`
+                      'Change fired'
                     ]
                   }}
                 />

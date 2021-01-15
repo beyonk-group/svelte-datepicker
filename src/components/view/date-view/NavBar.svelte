@@ -36,11 +36,11 @@
   $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > (startPosition + 1) : true)
 
   function changeMonth (selectedMonth) {
-    month.set(selectedMonth)
+    displayedDate.update(v => v.month(selectedMonth))
     highlighted.set($displayedDate)
   }
 
-  function incrementMonth (direction, day = 1) {
+  function incrementMonth (direction) {
     if (direction === 1 && !canIncrementMonth) return
     if (direction === -1 && !canDecrementMonth) return
 
