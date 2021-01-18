@@ -29,8 +29,8 @@
   const endContextKey = {}
 
   const config = {
-    start,
-    end,
+    start: dayjs(start),
+    end: dayjs(end),
     isRangePicker: range,
     isTimePicker: time,
     closeOnFocusLoss,
