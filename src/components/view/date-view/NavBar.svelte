@@ -62,16 +62,18 @@
 
 <div class="title">
   <div class="heading-section">
-    <button class="control" 
+    <button class="control"
+      type="button"
       aria-label="Previous month"
       disabled={!canDecrementMonth}
       on:click={() => incrementMonth(-1)}>
       <i class="arrow left"></i>
     </button>
-    <button class="label" on:click={toggleMonthSelectorOpen}>
+    <button type="button" class="label" on:click={toggleMonthSelectorOpen}>
       <span>{$displayedDate.format('MMMM YYYY')}</span>
     </button> 
     <button class="control"
+      type="button"
       aria-label="Next month"
       disabled={!canIncrementMonth}
       on:click={() => incrementMonth(1)}>
