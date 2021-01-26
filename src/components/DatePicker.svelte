@@ -22,6 +22,7 @@
   export let morning = 7
   export let night = 19
   export let minuteStep = 5
+  export let continueText = 'Continue'
 
   const dispatch = createEventDispatcher()
 
@@ -199,7 +200,7 @@
         />
         {/if}
       </div>
-      <Toolbar on:change on:close={() => popover.close()} />
+      <Toolbar continueText={continueText} on:change on:close={() => popover.close()} />
     </div>
   </Popover>
 </div>
