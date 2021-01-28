@@ -1,12 +1,14 @@
 <div class="toolbar">
   <button type="button" class="button" on:click|preventDefault={progress}>
-    Continue
+    {continueText}
   </button>
 </div>
 
 <script>
   import { getContext, createEventDispatcher } from 'svelte'
   import { contextKey } from './lib/context.js'
+
+  export let continueText
   
   const dispatch = createEventDispatcher()
 
