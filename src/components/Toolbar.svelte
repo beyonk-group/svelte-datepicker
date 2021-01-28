@@ -8,7 +8,7 @@
   import { getContext, createEventDispatcher } from 'svelte'
   import { contextKey } from './lib/context.js'
 
-  export let continueText;
+  export let continueText
   
   const dispatch = createEventDispatcher()
 
