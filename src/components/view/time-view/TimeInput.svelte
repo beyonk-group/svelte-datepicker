@@ -44,11 +44,11 @@
   }
   
   .time-picker.is-night {
-    color: var(--night-mode-text-color);
+    color: var(--time-night-mode-text-color);
   }
   
   .time-picker.is-night input {
-    color: var(--night-mode-text-color);
+    color: var(--time-night-mode-text-color);
   }
   
   input {
@@ -61,7 +61,7 @@
     line-height: 42px;
     text-align: center;
     letter-spacing: 16px;
-    color: var(--button-text-color);
+    color: var(--time-input-text-color);
   }
   
   .controls {

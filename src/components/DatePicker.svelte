@@ -143,7 +143,8 @@
   .contents {
     width: 320px;
     display: flex;
-    flex-direction: column;;
+    flex-direction: column;
+    background: var(--content-background);
   }
 
   .view {
