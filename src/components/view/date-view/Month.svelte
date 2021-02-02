@@ -52,6 +52,7 @@
     color: #4a4a4a;
     padding: 10px 0;
     margin-bottom: 5px;
+    color: var(--legend-text-color);
   }
 
   @media (min-width: 600px) {

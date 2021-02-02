@@ -122,13 +122,13 @@
   }
   .day.is-today.selection-end:not(.outside-month) .day--label,
   .day.selection-end:not(.outside-month) .day--label {
-    background-color: var(--button-background-color);
+    background-color: var(--highlight-color);
     border: var(--highlight-color) 1px solid;
   }
   .day.selection-end:not(.outside-month) .day--label:hover,
   .day.selection-start:not(.outside-month) .day--label {
     background-color: var(--highlight-color);
-    color: var(--button-background-color);
+    color: var(--selected-day-text-color);
   }
   .day.part-of-range:before, 
   .day.selection-start:before, 
@@ -199,7 +199,7 @@
     background-color: var(--highlight-color);
   }
   .day:not(.outside-month).part-of-range .day--label {
-    color: var(--button-background-color);
+    color: var(--day-text-color-in-range);
   }
   .day.is-range-picker.first-of-month:not(.outside-month).selection-end:not(.selection-start):before,
   .day.is-range-picker.first-of-month:not(.outside-month).part-of-range {
@@ -214,7 +214,7 @@
     opacity: 1; 
     background: none;
     border: var(--highlight-color)  1px solid;
-    color: #000;
+    color: var(--current-day-text-color);
   }
   @keyframes shake {
     0% { transform: translate(7px); }

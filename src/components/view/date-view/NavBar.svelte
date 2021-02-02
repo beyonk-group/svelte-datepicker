@@ -105,6 +105,10 @@
     font-weight: bold;
   }
 
+  .label {
+    color: var(--month-year-text-color);
+  }
+
   @media (min-width: 600px) {
     .heading-section {
       padding: 24px 15px;
