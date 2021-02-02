@@ -34,10 +34,18 @@
         on:chosen
       />
     {/each}
+    {#if $monthView.visibleMonth.weeks.length === 5}
+      <!-- if we have a short month, with only 5 weeks, save some space -->
+      <div class="week-placeholder"></div>
+    {/if}
   </div>
 </div>
 
 <style>
+  .week-placeholder {
+    height: 38px; /* 32px element size + 2*3px margin */
+  }
+
   .month-dates { 
     width: 100%;
     display: -ms-grid;
