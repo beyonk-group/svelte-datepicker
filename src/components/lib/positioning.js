@@ -4,9 +4,7 @@ const getTranslate = async (w, contentsWrapper, translateX, translateY) => {
   const dist = await getDistanceToEdges(contentsWrapper, translateX, translateY)
   let x
   let y
-  if (w < 480) {
-    y = dist.bottom
-  } else if (dist.top < 0) {
+  if (dist.top < 0) {
     y = Math.abs(dist.top)
   } else if (dist.bottom < 0) {
     y = dist.bottom
