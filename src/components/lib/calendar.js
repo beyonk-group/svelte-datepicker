@@ -47,7 +47,7 @@ function getMonths (config) {
   const months = []
   const dayPropsHandler = getDayPropsHandler(firstDay, lastDay, selectableCallback)
   let date = dayjs(firstDay)
-  while (date.isBefore(lastDay)) {
+  while (date.isSameOrBefore(lastDay)) {
     months.push(getCalendarPage(date, dayPropsHandler))
     date = date.add(1, 'month')
   }
