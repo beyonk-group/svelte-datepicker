@@ -2,7 +2,7 @@
 
 import { dayjs } from './date-utils'
 import DateView from '../view/date-view/DateView.svelte'
-import { derived, get } from 'svelte/store'
+import { derived } from 'svelte/store'
 
 function createMonthView (months, displayedDate) {
   return derived([ displayedDate ], ([ $displayedDate ]) => {

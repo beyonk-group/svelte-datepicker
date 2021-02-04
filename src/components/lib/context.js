@@ -17,7 +17,9 @@ function setup (given, config) {
   const component = writable('date-view')
 
   const leftDate = preSelectedStart
-  const rightDate = config.isRangePicker ? writable(ensureFutureMonth(preSelectedStart, preSelectedEnd)) : null
+  const rightDate = config.isRangePicker ? ensureFutureMonth(preSelectedStart, preSelectedEnd) : null
+
+  console.log('left', dayjs(leftDate).format('YYYY-MM-DD'), 'right', dayjs(rightDate).format('YYYY-MM-DD'))
 
   return {
     months: getMonths(config),
