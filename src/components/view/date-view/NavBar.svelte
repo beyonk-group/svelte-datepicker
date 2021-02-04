@@ -5,7 +5,7 @@
 
   export let viewContextKey
 
-  const { months, config, highlighted, displayedStartDate, displayedEndDate } = getContext(contextKey)
+  const { months, config, highlighted, leftCalendarDate, rightCalendarDate } = getContext(contextKey)
   const { isStart, displayedDate, monthView } = getContext(viewContextKey)
 
   let monthSelectorOpen = false
@@ -30,8 +30,8 @@
   }
 
   $: myPosition = dayjs($displayedDate).diff('0000-00-00', 'month')
-  $: startPosition = dayjs($displayedStartDate).diff('0000-00-00', 'month')
-  $: endPosition = dayjs($displayedEndDate).diff('0000-00-00', 'month')
+  $: startPosition = dayjs($leftCalendarDate).diff('0000-00-00', 'month')
+  $: endPosition = dayjs($rightCalendarDate).diff('0000-00-00', 'month')
   $: canIncrementMonth = ($monthView.monthIndex < months.length - 1) && (config.isRangePicker && isStart ? myPosition < (endPosition - 1) : true)
   $: canDecrementMonth = $monthView.monthIndex > 0 && (config.isRangePicker && !isStart ? myPosition > (startPosition + 1) : true)
 

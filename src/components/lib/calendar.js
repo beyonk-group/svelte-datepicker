@@ -1,4 +1,5 @@
 import { dayjs } from './date-utils'
+import { ensureFutureMonth } from './date-manipulation.js'
 
 function getCalendarPage (date, dayProps) {
   const displayedRangeStart = date.startOf('month').startOf('week')
@@ -42,12 +43,13 @@ function getDayPropsHandler (start, end, selectableCallback) {
 
 function getMonths (config) {
   const { start, end, selectableCallback } = config
-  const firstDay = start.startOf('month').startOf('day')
-  const lastDay = end.startOf('month').startOf('day')
+  const firstMonth = start.startOf('month').startOf('day')
+  const lastMonth = ensureFutureMonth(firstMonth, end.startOf('month').startOf('day'))
+
   const months = []
-  const dayPropsHandler = getDayPropsHandler(firstDay, lastDay, selectableCallback)
-  let date = dayjs(firstDay)
-  while (date.isSameOrBefore(lastDay)) {
+  const dayPropsHandler = getDayPropsHandler(firstMonth, lastMonth, selectableCallback)
+  let date = dayjs(firstMonth)
+  while (date.isSameOrBefore(lastMonth)) {
     months.push(getCalendarPage(date, dayPropsHandler))
     date = date.add(1, 'month')
   }

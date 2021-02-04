@@ -1,13 +1,13 @@
 'use strict'
 
-import { dayjs } from './lib/date-utils'
-import DateView from './view/date-view/DateView.svelte'
-import { derived } from 'svelte/store'
+import { dayjs } from './date-utils'
+import DateView from '../view/date-view/DateView.svelte'
+import { derived, get } from 'svelte/store'
 
 function createMonthView (months, displayedDate) {
-  let monthIndex = 0
-
   return derived([ displayedDate ], ([ $displayedDate ]) => {
+    let monthIndex = 0
+
     const month = $displayedDate.month()
     const year = $displayedDate.year()
     for (let i = 0; i < months.length; i += 1) {
@@ -24,8 +24,8 @@ function createMonthView (months, displayedDate) {
 }
 
 function createViewContext (isStart, mainContext) {
-  const { config, months, displayedStartDate, displayedEndDate, selectedStartDate, selectedEndDate } = mainContext
-  const [ date, displayedDate ] = isStart ? [ selectedStartDate, displayedStartDate ] : [ selectedEndDate, displayedEndDate ]
+  const { config, months, leftCalendarDate, rightCalendarDate, selectedStartDate, selectedEndDate } = mainContext
+  const [ date, displayedDate ] = isStart ? [ selectedStartDate, leftCalendarDate ] : [ selectedEndDate, rightCalendarDate ]
   const isDaytime = derived(date, $date => {
     if (!$date) { return true }
     const [ h ] = dayjs($date).format('HH:mm').split(':').map(d => parseInt(d))

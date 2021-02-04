@@ -3,6 +3,7 @@ import { createFormatter } from './formatter.js'
 import { getMonths } from './calendar.js'
 import { sanitizeInitialValue } from './sanitization.js'
 import { dayjs } from './date-utils.js'
+import { ensureFutureMonth } from './date-manipulation.js'
 
 const contextKey = {}
 
@@ -15,14 +16,17 @@ function setup (given, config) {
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable('date-view')
 
+  const leftDate = preSelectedStart
+  const rightDate = config.isRangePicker ? writable(ensureFutureMonth(preSelectedStart, preSelectedEnd)) : null
+
   return {
     months: getMonths(config),
     component,
     today,
     selectedStartDate,
     selectedEndDate,
-    displayedStartDate: writable(preSelectedStart),
-    displayedEndDate: config.isRangePicker ? writable(preSelectedEnd) : null,
+    leftCalendarDate: writable(leftDate),
+    rightCalendarDate: writable(rightDate),
     config,
     shouldShakeDate: writable(false),
     isOpen: writable(false),
