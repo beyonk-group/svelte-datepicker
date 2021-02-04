@@ -180,14 +180,14 @@
               </Route>
               <Route path="/with-date-restriction/*">
                 <h2>Without Date Restriction</h2>
-                <p>Restrict date from today until a week in the future</p>
+                <p>Restrict date from tomorrow until a week later</p>
                 <Route path="/">
                   <div class="demo">
                     <DatePicker
                       format='ddd, DD MMM YYYY'
                       range={true}
-                      start={dayjs('2021-02-11').toDate()}
-                      end={dayjs('2021-04-18').toDate()}
+                      start={dayjs().add(1, 'day').toDate()}
+                      end={dayjs().add(1, 'day').add(1, 'week').toDate()}
                     />
                   </div>
                 </Route>

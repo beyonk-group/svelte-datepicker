@@ -1,14 +1,12 @@
 import { dayjs } from './date-utils'
 
 function buildDaySelectionValidator (start, end, selectableCallback) {
-  const today = dayjs().startOf('day')
   return date => {
-    const given = date.toDate()
-    const isInRange = given >= start.toDate() && given <= end.toDate()
+    const isInRange = date.isSameOrAfter(start, 'day') && date.isSameOrBefore(end, 'day')
     return {
       isInRange,
-      selectable: isInRange && (!selectableCallback || selectableCallback(given)),
-      isToday: given.valueOf() === today.valueOf()
+      selectable: isInRange && (!selectableCallback || selectableCallback(date.toDate())),
+      isToday: date.isSame(dayjs(), 'day')
     }
   }
 }
