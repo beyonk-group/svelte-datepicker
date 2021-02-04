@@ -16,10 +16,8 @@ function setup (given, config) {
   const { formatter } = createFormatter(selectedStartDate, selectedEndDate, config)
   const component = writable('date-view')
 
-  const leftDate = preSelectedStart
-  const rightDate = config.isRangePicker ? ensureFutureMonth(preSelectedStart, preSelectedEnd) : null
-
-  console.log('left', dayjs(leftDate).format('YYYY-MM-DD'), 'right', dayjs(rightDate).format('YYYY-MM-DD'))
+  const leftDate = preSelectedStart.startOf('month')
+  const rightDate = config.isRangePicker ? ensureFutureMonth(preSelectedStart, preSelectedEnd).startOf('month') : null
 
   return {
     months: getMonths(config),

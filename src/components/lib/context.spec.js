@@ -4,6 +4,7 @@ import { setup } from './context.js'
 import { dayjs } from './date-utils.js'
 import MockDate from 'mockdate'
 import { get } from 'svelte/store'
+import { dequal } from 'dequal'
 
 const defaults = Suite('setup/range-picker/defaults')
 
@@ -57,7 +58,7 @@ defaults('has correct right date', () => {
 })
 
 defaults('has passed configuration', () => {
-  assert.equal(defaults.ctx.output.config, defaults.ctx.config)
+  assert.is(defaults.ctx.output.config, defaults.ctx.config)
 })
 
 defaults('has correct open state', () => {
@@ -145,12 +146,12 @@ withSelectedEndInsideRange.after(() => {
 
 withSelectedEndInsideRange('left-hand month is start of default selection', () => {
   const date = get(withSelectedEndInsideRange.ctx.output.leftCalendarDate)
-  assert.equal(date.toDate(), dayjs('2021-02-01').toDate())
+  assert.equal(date.format('YYYY-MM-DD'), '2021-02-01')
 })
 
 withSelectedEndInsideRange('right hand month is next month', () => {
   const date = get(withSelectedEndInsideRange.ctx.output.rightCalendarDate)
-  assert.equal(date.toDate(), dayjs('2021-03-01').toDate())
+  assert.equal(date.format('YYYY-MM-DD'), '2021-03-01')
 })
 
 withSelectedEndInsideRange.run()
