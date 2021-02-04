@@ -4,7 +4,6 @@ import { setup } from './context.js'
 import { dayjs } from './date-utils.js'
 import MockDate from 'mockdate'
 import { get } from 'svelte/store'
-import { dequal } from 'dequal'
 
 const defaults = Suite('setup/range-picker/defaults')
 
