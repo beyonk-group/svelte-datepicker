@@ -165,6 +165,7 @@
               <nav>
                 <a href="/range-picker/with-time">With Time</a>
                 <a href="/range-picker/without-time">Without Time</a>
+                <a href="/range-picker/without-time/with-date-restriction">With Date Restriction</a>
                 <a href="/range-picker/with-time/with-selected-dates">With Selected Dates</a>
                 <a href="/range-picker/with-time/with-events">With Events</a>
               </nav>
@@ -176,6 +177,20 @@
                 <div class="demo">
                   <DatePicker format='ddd, DD MMM YYYY' range={true} />
                 </div>
+              </Route>
+              <Route path="/with-date-restriction/*">
+                <h2>Without Date Restriction</h2>
+                <p>Restrict date from today until a week in the future</p>
+                <Route path="/">
+                  <div class="demo">
+                    <DatePicker
+                      format='ddd, DD MMM YYYY'
+                      range={true}
+                      start={dayjs('2021-02-11').toDate()}
+                      end={dayjs('2021-04-18').toDate()}
+                    />
+                  </div>
+                </Route>
               </Route>
             </Route>
             <Route path="/with-time/*">

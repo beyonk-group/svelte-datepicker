@@ -27,3 +27,13 @@ Roadmap:
 
 * See [The Documentation](https://svelte-datepicker.vercel.app) which is a work in progress.
 * See [Small Svelte REPL](https://svelte.dev/repl/d812e880c6934f9e9a7cf9f760eddc11?version=3.31.2) for a minimum working verison.
+
+## Contributing
+
+### Tests
+
+Tests written in [uvu](https://github.com/lukeed/uvu)
+
+```bash
+npm run test
+```

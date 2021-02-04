@@ -4,7 +4,7 @@
   import { contextKey, setup } from './lib/context'
   import { createEventDispatcher, setContext, getContext } from 'svelte'
   import { CalendarStyle } from '../calendar-style.js'
-  import { createViewContext } from './view-context.js'
+  import { createViewContext } from './lib/view-context.js'
   import Toolbar from './Toolbar.svelte'
   import View from './view/View.svelte'
 

@@ -6,6 +6,9 @@ on:
       - '*'
     tags:
       - 'v*'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   build:
@@ -20,6 +23,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run lint
+      - run: npm run test:unit
   
   docs:
     runs-on: ubuntu-latest

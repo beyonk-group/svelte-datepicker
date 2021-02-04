@@ -1,4 +1,6 @@
 import { dayjs } from './date-utils'
+import { ensureFutureMonth } from './date-manipulation.js'
+import { buildDaySelectionValidator } from './day-selection-validator.js'
 
 function getCalendarPage (date, dayProps) {
   const displayedRangeStart = date.startOf('month').startOf('week')
@@ -27,28 +29,16 @@ function getCalendarPage (date, dayProps) {
   return { month: date.month(), year: date.year(), weeks }
 }
 
-function getDayPropsHandler (start, end, selectableCallback) {
-  const today = dayjs().startOf('day')
-  return date => {
-    const given = date.toDate()
-    const isInRange = given >= start.toDate() && given <= end.toDate()
-    return {
-      isInRange,
-      selectable: isInRange && (!selectableCallback || selectableCallback(given)),
-      isToday: given.valueOf() === today.valueOf()
-    }
-  }
-}
-
 function getMonths (config) {
   const { start, end, selectableCallback } = config
-  const firstDay = start.startOf('month').startOf('day')
-  const lastDay = end.startOf('month').startOf('day')
+  const firstMonth = start.startOf('month').startOf('day')
+  const lastMonth = ensureFutureMonth(firstMonth, end.startOf('month').startOf('day'))
+
   const months = []
-  const dayPropsHandler = getDayPropsHandler(firstDay, lastDay, selectableCallback)
-  let date = dayjs(firstDay)
-  while (date.isSameOrBefore(lastDay)) {
-    months.push(getCalendarPage(date, dayPropsHandler))
+  const validator = buildDaySelectionValidator(start, end, selectableCallback)
+  let date = dayjs(firstMonth)
+  while (date.isSameOrBefore(lastMonth)) {
+    months.push(getCalendarPage(date, validator))
     date = date.add(1, 'month')
   }
   return months

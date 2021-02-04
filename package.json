@@ -7,7 +7,8 @@
     "dev": "snowpack dev",
     "build": "snowpack build",
     "lint": "eslint .",
-    "test": "web-test-runner \"src/**/*.test.js\""
+    "test": "web-test-runner \"src/**/*.test.js\"",
+    "test:unit": "uvu -r esm"
   },
   "dependencies": {
     "dayjs": "^1.9.6",
@@ -24,8 +25,12 @@
     "@web/test-runner": "^0.9.7",
     "eslint": "^7.14.0",
     "eslint-plugin-svelte3": "^2.7.3",
+    "esm": "^3.2.25",
+    "mockdate": "^3.0.2",
+    "sinon": "^9.2.4",
     "snowpack": "^3.0.10",
-    "tinro": "^0.3.7"
+    "tinro": "^0.3.7",
+    "uvu": "^0.5.1"
   },
   "eslintConfig": {
     "extends": "@beyonk/eslint-config/svelte"
