@@ -5,7 +5,7 @@ import { dayjs } from './date-utils.js'
 import MockDate from 'mockdate'
 import { get } from 'svelte/store'
 
-const suite = Suite('setup/range-picker')
+const suite = Suite('setup/range-picker/defaults')
 
 const config = {
   start: dayjs().subtract(1, 'year'),
