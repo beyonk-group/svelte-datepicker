@@ -16,13 +16,17 @@
   let translateX = 0
 
   export let trigger
-  export const close = () => {
+  export function close () {
     isClosing.set(true)
     once(contentsAnimated, 'animationend', () => {
       isClosing.set(false)
       isOpen.set(false)
       dispatch('closed')
     })
+  }
+
+  export function recentre () {
+    contentsWrapper.scrollIntoView()
   }
 
   function checkForFocusLoss (evt) {

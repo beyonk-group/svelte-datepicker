@@ -16,13 +16,27 @@ const scenarios = [
     w: 380,
     distance: { bottom: 123, top: 0, left: -14, right: 0 },
     y: 123,
-    x: 14
+    x: 21
   },
   {
     scenario: 'mobile: too far right',
     w: 380,
     distance: { bottom: 123, top: 0, left: 0, right: -14 },
     y: 123,
+    x: 7
+  },
+  {
+    scenario: 'tablet: too far left',
+    w: 481,
+    distance: { bottom: 123, top: 0, left: -14, right: 0 },
+    y: 0,
+    x: 14
+  },
+  {
+    scenario: 'tablet: too far right',
+    w: 481,
+    distance: { bottom: 123, top: 0, left: 0, right: -14 },
+    y: 0,
     x: -14
   },
   {

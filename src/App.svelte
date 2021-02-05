@@ -181,14 +181,13 @@
               </Route>
               <Route path="/with-responsive-positioning/*">
                 <h2>With Responsive Positioning</h2>
-                <p>Various Positioning options</p>
+                <p>Scrolls calendar into view on small screens. Button is down there to the right!</p>
                 <Route path="/">
                   <div class="demo">
                     <DatePicker
                       range={true}
-                      position=""
                     >
-                      Default
+                      <div class="offscreen-button">Open Calendar</div>
                     </DatePicker>
                   </div>
                 </Route>
@@ -336,6 +335,14 @@
 
   .demo {
     margin: 24px 0;
+  }
+
+  .offscreen-button {
+    border: 4px solid red;
+    padding: 12px;
+    position: fixed;
+    bottom: 30px;
+    right: -50px;
   }
 
   .custom-button {

@@ -12,8 +12,13 @@ function getY (width, top, bottom) {
   }
 }
 
-function getX (left, right) {
-  if (left < 0) {
+function getX (width, left, right) {
+  if (width < 480) {
+    const l = Math.abs(left)
+    const r = Math.abs(right)
+    const border = (Math.max(l, r) - Math.min(l, r)) / 2
+    return l + border
+  } else if (left < 0) {
     return Math.abs(left)
   } else if (right < 0) {
     return right
@@ -25,7 +30,7 @@ function getX (left, right) {
 function getTranslate (width, distance) {
   const { bottom, top, left, right } = distance
   const y = getY(width, top, bottom)
-  const x = getX(left, right)
+  const x = getX(width, left, right)
   return { x, y }
 }
 

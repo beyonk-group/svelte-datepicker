@@ -65,6 +65,9 @@
   function initialisePicker () {
     highlighted.set($selectedStartDate)
     dispatch('open')
+    setTimeout(() => {
+      popover.recentre()
+    }, 1)
   }
   
   function setRangeValue () {
