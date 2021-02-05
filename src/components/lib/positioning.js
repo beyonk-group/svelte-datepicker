@@ -2,7 +2,7 @@ import { tick } from 'svelte'
 
 function getY (width, top, bottom) {
   if (width < 480) {
-    return bottom
+    return Math.abs(top)
   } else if (top < 0) {
     return Math.abs(top)
   } else if (bottom < 0) {
