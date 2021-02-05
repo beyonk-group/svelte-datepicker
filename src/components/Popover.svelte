@@ -1,7 +1,7 @@
 <script>
   import { onMount, createEventDispatcher, getContext } from 'svelte'
   import { contextKey } from './lib/context.js'
-  import { getTranslate } from './lib/positioning.js'
+  import { getTranslate, getDistanceToEdges } from './lib/positioning.js'
   import { once } from './lib/event-handling.js'
 
   const { isOpen, isClosing, config, resetView } = getContext(contextKey)
@@ -50,7 +50,8 @@
   const doOpen = async () => {
     if (!$isOpen) { isOpen.set(true) }
 
-    const { x, y } = await getTranslate(w, contentsWrapper, translateX, translateY)
+    const distance = await getDistanceToEdges(window, contentsWrapper, translateX, translateY)
+    const { x, y } = getTranslate(w, distance)
     translateY = y
     translateX = x
     isOpen.set(true)

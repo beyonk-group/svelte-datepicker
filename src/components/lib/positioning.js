@@ -1,39 +1,46 @@
 import { tick } from 'svelte'
 
-const getTranslate = async (w, contentsWrapper, translateX, translateY) => {
-  const dist = await getDistanceToEdges(contentsWrapper, translateX, translateY)
-  let x
-  let y
-  if (w < 480) {
-    y = dist.bottom
-  } else if (dist.top < 0) {
-    y = Math.abs(dist.top)
-  } else if (dist.bottom < 0) {
-    y = dist.bottom
+function getY (width, top, bottom) {
+  if (width < 480) {
+    return bottom
+  } else if (top < 0) {
+    return Math.abs(top)
+  } else if (bottom < 0) {
+    return bottom
   } else {
-    y = 0
+    return 0
   }
-  if (dist.left < 0) {
-    x = Math.abs(dist.left)
-  } else if (dist.right < 0) {
-    x = dist.right
+}
+
+function getX (left, right) {
+  if (left < 0) {
+    return Math.abs(left)
+  } else if (right < 0) {
+    return right
   } else {
-    x = 0
+    return 0
   }
+}
+
+function getTranslate (width, distance) {
+  const { bottom, top, left, right } = distance
+  const y = getY(width, top, bottom)
+  const x = getX(left, right)
   return { x, y }
 }
 
-export {
-  getTranslate
-}
-
-const getDistanceToEdges = async (contentsWrapper, translateX, translateY) => {
+async function getDistanceToEdges (w, contentsWrapper, translateX, translateY) {
   await tick()
   const rect = contentsWrapper.getBoundingClientRect()
   return {
     top: rect.top + (-1 * translateY),
-    bottom: window.innerHeight - rect.bottom + translateY,
+    bottom: w.innerHeight - rect.bottom + translateY,
     left: rect.left + (-1 * translateX),
-    right: document.body.clientWidth - rect.right + translateX
+    right: w.document.body.clientWidth - rect.right + translateX
   }
+}
+
+export {
+  getDistanceToEdges,
+  getTranslate
 }

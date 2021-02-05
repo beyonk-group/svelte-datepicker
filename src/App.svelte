@@ -165,6 +165,7 @@
               <nav>
                 <a href="/range-picker/with-time">With Time</a>
                 <a href="/range-picker/without-time">Without Time</a>
+                <a href="/range-picker/without-time/with-responsive-positioning">With Responsive Positioning</a>
                 <a href="/range-picker/without-time/with-date-restriction">With Date Restriction</a>
                 <a href="/range-picker/with-time/with-selected-dates">With Selected Dates</a>
                 <a href="/range-picker/with-time/with-events">With Events</a>
@@ -177,6 +178,20 @@
                 <div class="demo">
                   <DatePicker format='ddd, DD MMM YYYY' range={true} />
                 </div>
+              </Route>
+              <Route path="/with-responsive-positioning/*">
+                <h2>With Responsive Positioning</h2>
+                <p>Various Positioning options</p>
+                <Route path="/">
+                  <div class="demo">
+                    <DatePicker
+                      range={true}
+                      position=""
+                    >
+                      Default
+                    </DatePicker>
+                  </div>
+                </Route>
               </Route>
               <Route path="/with-date-restriction/*">
                 <h2>Without Date Restriction</h2>
@@ -309,6 +324,7 @@
 
   nav:not(.side-nav) {
     display: flex;
+    flex-wrap: wrap;
     margin: 12px 0;
   }
 
