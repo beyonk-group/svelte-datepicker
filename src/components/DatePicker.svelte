@@ -106,6 +106,11 @@
     config.isRangePicker && isSelectingFirstDate.update(v => !v)
   }
 
+  function close () {
+    swapDatesIfRequired()
+    popover.close()
+  }
+
   $: {
     if ($isDateChosen) {
       config.isRangePicker ? setRangeValue() : setDateValue()
@@ -194,17 +199,15 @@
         <View
           viewContextKey={startContextKey}
           on:chosen={addDate}
-          on:close={() => popover.close()}
         />
         {#if config.isRangePicker}
         <View
           viewContextKey={endContextKey}
           on:chosen={addDate}
-          on:close={() => popover.close()}
         />
         {/if}
       </div>
-      <Toolbar continueText={continueText} on:change on:close={() => popover.close()} />
+      <Toolbar continueText={continueText} on:close={close} />
     </div>
   </Popover>
 </div>

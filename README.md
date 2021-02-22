@@ -16,6 +16,7 @@ This is a near total rewrite of the excellent [Svelte Calendar](https://github.c
 * Improved theming
 * Context-aware theming
 * Toolbar to avoid awkward bindings
+* Works in tough situations such as inside iframes
 
 Roadmap:
 
