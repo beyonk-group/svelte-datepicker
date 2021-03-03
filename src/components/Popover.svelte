@@ -1,19 +1,15 @@
 <script>
   import { onMount, createEventDispatcher, getContext } from 'svelte'
   import { contextKey } from './lib/context.js'
-  import { getTranslate, getDistanceToEdges } from './lib/positioning.js'
   import { once } from './lib/event-handling.js'
 
   const { isOpen, isClosing, config, resetView } = getContext(contextKey)
   const dispatch = createEventDispatcher()
 
   let popover
-  let w
   let triggerContainer
   let contentsAnimated
   let contentsWrapper
-  let translateY = 0
-  let translateX = 0
 
   export let trigger
   export function close () {
@@ -54,10 +50,6 @@
   const doOpen = async () => {
     if (!$isOpen) { isOpen.set(true) }
 
-    const distance = await getDistanceToEdges(window, contentsWrapper, translateX, translateY)
-    const { x, y } = getTranslate(w, distance)
-    translateY = y
-    translateX = x
     isOpen.set(true)
     resetView()
 
@@ -65,7 +57,6 @@
   }
 </script>
 
-<svelte:window bind:innerWidth={w} />
 <div class="sc-popover" bind:this={popover}>
   <div class="trigger" on:click={doOpen} bind:this={triggerContainer}>
     <slot name="trigger">
@@ -75,7 +66,7 @@
     class="contents-wrapper" 
     class:visible={$isOpen}
     class:shrink={$isClosing}
-    style="transform: translate(-50%,-50%) translate({translateX}px, {translateY}px)" 
+
     bind:this={contentsWrapper}>
     <div class="wrapper" bind:this={contentsAnimated}>
       <div class="contents-inner">
@@ -91,8 +82,8 @@
   }
 
   .contents-wrapper { 
-    transform: translate(-50%, -50%); 
-    position: absolute;
+    transform: translate(-50%, -50%);
+    position: fixed;
     top: 50%; 
     left: 50%; 
     transition: none;
@@ -102,11 +93,11 @@
 
   .wrapper { 
     background: #fff;
-    box-shadow: 0px 10px 26px rgba(0,0,0,0.4) ;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.4) ;
     opacity: .8; 
     padding-top: 0;
     display: none;
-    animation: grow 200ms forwards cubic-bezier(.92,.09,.18,1.05);
+    animation: grow 200ms forwards cubic-bezier(.92, .09, .18, 1.05);
   }
 
   .contents-inner { 
