@@ -115,8 +115,6 @@
     if ($isDateChosen) {
       config.isRangePicker ? setRangeValue() : setDateValue()
       dispatch('change')
-    } else {
-      selected = null
     }
   }
 </script>
