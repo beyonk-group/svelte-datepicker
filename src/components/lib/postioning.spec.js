@@ -1,7 +1,7 @@
 import { stub } from 'sinon'
 import { suite as Suite } from 'uvu'
 import assert from 'uvu/assert'
-import { getDistanceToEdges, getTranslate } from './positioning.js'
+import { getCoords } from './positioning.js'
 
 const scenarios = [
   {
@@ -62,23 +62,7 @@ const scenarios = [
   }
 ]
 
-const suite = Suite('positioning/getTranslate')
-
-scenarios.forEach(({ scenario, w, distance, y, x }) => {
-  suite(`${scenario} y`, () => {
-    const position = getTranslate(w, distance)
-    assert.is(position.y, y)
-  })
-
-  suite(`${scenario} x`, () => {
-    const position = getTranslate(w, distance)
-    assert.is(position.x, x)
-  })
-})
-
-suite.run()
-
-const edges = Suite('positioning/getDistanceToEdges')
+const edges = Suite('positioning/getCoords')
 
 edges.before(async () => {
   const rect = {
@@ -99,24 +83,16 @@ edges.before(async () => {
     getBoundingClientRect: stub().returns(rect)
   }
   edges.ctx = {
-    bounds: await getDistanceToEdges(window, wrapper, 123, 456)
+    bounds: await getCoords(window, wrapper, 123, 456)
   }
-})
-
-edges('calculates top', () => {
-  assert.is(edges.ctx.bounds.top, -446)
-})
-
-edges('calculates bottom', () => {
-  assert.is(edges.ctx.bounds.bottom, 546)
 })
 
 edges('calculates left', () => {
   assert.is(edges.ctx.bounds.left, -113)
 })
 
-edges('calculates right', () => {
-  assert.is(edges.ctx.bounds.right, 253)
+edges('calculates top', () => {
+  assert.is(edges.ctx.bounds.top, -446)
 })
 
 edges.run()

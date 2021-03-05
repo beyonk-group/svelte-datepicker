@@ -4,11 +4,9 @@
 
 <Route path="/iframe-demo/*">
   <Route path="/">
-    <div class="demo">
-      <DatePicker
-        range={true}
-      >
-        <div>Open Calendar</div>
+    <div class="demo tall">
+      <DatePicker range={true}>
+        <button>Open Calendar</button>
       </DatePicker>
     </div>
   </Route>
@@ -367,6 +365,10 @@
     margin: 24px 0;
   }
 
+  .tall {
+    height: 1500px;
+  }
+
   .offscreen-button {
     border: 4px solid red;
     padding: 12px;
@@ -382,7 +384,6 @@
     top: 30px;
     left: -50px;
   }
-
 
   .custom-button {
     -webkit-appearance: none;
