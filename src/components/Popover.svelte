@@ -28,6 +28,7 @@
     once(contentsAnimated, 'animationend', () => {
       isClosing.set(false)
       isOpen.set(false)
+      blur(false)
       dispatch('closed')
     })
   }
@@ -58,6 +59,15 @@
     }
   })
 
+  function blur (on) {
+    for (let cn of document.body.children) {
+      if (cn.style) {
+        cn.style.transition = '0.25s filter ease-in-out'
+        cn.style.filter = on ? 'grayscale(1)' : 'none'
+      }
+    }
+  }
+
   const doOpen = async () => {
     if (!$isOpen) { isOpen.set(true) }
 
@@ -68,6 +78,10 @@
 
     isOpen.set(true)
     resetView()
+
+    calendar.remove()
+    blur(true)
+    document.body.appendChild(calendar)
 
     dispatch('opened')
   }
