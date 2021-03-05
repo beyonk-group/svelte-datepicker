@@ -1,6 +1,7 @@
 import { tick } from 'svelte'
 
-function getFramePosition (win, selector) {
+function getFramePosition (win) {
+  const selector = `iframe${Array.from(win.frameElement.attributes).map(d => `[${d.name}='${d.value}']`).join('')}`
   const iframe = win.parent.document.querySelector(selector)
   const iframePosition = iframe
     ? iframe.getBoundingClientRect()
@@ -14,9 +15,9 @@ function getFramePosition (win, selector) {
   }
 }
 
-function getElementPosition (win, el, selector) {
+function getElementPosition (win, el) {
   const elementPosition = el.getBoundingClientRect()
-  const iframePosition = getFramePosition(win, selector)
+  const iframePosition = getFramePosition(win)
 
   return {
     top: elementPosition.top + iframePosition.top,
@@ -28,20 +29,22 @@ function getElementPosition (win, el, selector) {
   }
 }
 
-function parentDimensions (win) {
+function getDocEl (win) {
   try {
-    const { clientHeight, clientWidth } = win.parent.document.documentElement
-    return { height: clientHeight, width: clientWidth }
+    return win.parent.document.documentElement
   } catch (ex) {
-    console.log(ex.message)
-    const { clientHeight, clientWidth } = win.document.documentElement
-    return { height: clientHeight, width: clientWidth }
+    return win.document.documentElement
   }
 }
 
-function isElementVisible (win, element, selector) {
+function parentDimensions (win) {
+  const { clientHeight, clientWidth } = getDocEl(win)
+  return { height: clientHeight, width: clientWidth }
+}
+
+function isElementVisible (win, element) {
   const { height, width } = parentDimensions(win)
-  const { top, left, bottom, right } = getElementPosition(win, element, selector)
+  const { top, left, bottom, right } = getElementPosition(win, element)
   return (top >= 0 && left >= 0 && bottom <= height && right <= width)
 }
 
@@ -57,7 +60,7 @@ function isCrossOriginFrame (win) {
   }
 }
 
-async function getCoords ({ win, calendar, trigger, selector = 'iframe', offset = 10 }) {
+async function getCoords ({ win, calendar, trigger, offset = 10 }) {
   await tick()
 
   const { height, width } = parentDimensions(win)
@@ -65,7 +68,7 @@ async function getCoords ({ win, calendar, trigger, selector = 'iframe', offset 
   let x, y
 
   if (iframed(win) && !isCrossOriginFrame(win)) {
-    const iframePosition = getFramePosition(win, selector)
+    const iframePosition = getFramePosition(win)
     x = (width / 2) - iframePosition.left - (calWidth / 2)
     y = (height / 2) - iframePosition.top - (calHeight / 2)
   }

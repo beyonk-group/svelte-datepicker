@@ -213,8 +213,8 @@
                   <p>Oh no! Iframes!</p>
                   <Route path="/">
                     <div class="demo">
-                      <iframe src="/iframe-demo" title="iframe-demo">
-                      </iframe>
+                      <iframe src="/iframe-demo" title="iframe-demo" id="sameDomain"></iframe>
+                      <iframe src="http://local.beyonk.com:8080/iframe-demo" title="iframe-demos" id="crossDomain"></iframe>
                     </div>
                   </Route>
                 </Route>
