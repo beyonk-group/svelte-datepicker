@@ -6,6 +6,7 @@ class CalendarStyle {
     this.buttonBackgroundColor = '#fff'
     this.buttonBorderColor = '#eee'
     this.buttonTextColor = '#333'
+    this.buttonWidth = '300px'
     this.highlightColor = '#f7901e'
     this.passiveHighlightColor = '#FCD9B1'
 
@@ -36,6 +37,8 @@ class CalendarStyle {
     this.monthYearTextColor = '#3d4548'
     this.legendTextColor = '#4a4a4a'
 
+    this.datepickerWidth = 'auto'
+
     Object.entries(overrides).forEach(([ prop, value ]) => {
       this[prop] = value
     })
@@ -46,6 +49,7 @@ class CalendarStyle {
       --button-background-color: ${this.buttonBackgroundColor};
       --button-border-color: ${this.buttonBorderColor};
       --button-text-color: ${this.buttonTextColor};
+      --button-width: ${this.buttonWidth};
       --highlight-color: ${this.highlightColor};
       --passive-highlight-color: ${this.passiveHighlightColor};
 
@@ -76,6 +80,7 @@ class CalendarStyle {
 
       --month-year-text-color: ${this.monthYearTextColor};
       --legend-text-color: ${this.legendTextColor};
+      --datepicker-width: ${this.datepickerWidth};
 
       ${this.style}
     `

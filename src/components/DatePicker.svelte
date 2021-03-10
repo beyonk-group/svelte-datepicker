@@ -124,6 +124,7 @@
     display: inline-block;
     text-align: center;
     overflow: visible;
+    width: var(--datepicker-width);
   }
 
   .calendar-button {
@@ -131,7 +132,7 @@
     border: 1px solid var(--button-border-color);
     display: block;
     text-align: center;
-    width: 300px;
+    width: var(--button-width);
     text-decoration: none;
     cursor: pointer;
     background: var(--button-background-color);
