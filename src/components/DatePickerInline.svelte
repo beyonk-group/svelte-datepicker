@@ -122,47 +122,6 @@
   }
 </script>
 
-<div
-  class="datepicker"
-  class:open={$isOpen}
-  class:closing={$isClosing}
-  style={styling.toWrapperStyle()}
->
-  <Popover
-    {trigger}
-    bind:this={popover}
-    on:opened={initialisePicker}
-    on:closed={() => dispatch("close")}
-  >
-    <div slot="trigger">
-      <slot formatted={$formatter}>
-        {#if !trigger}
-          <button class="calendar-button" type="button">
-            {#if $isDateChosen}
-              {$formatter.formattedCombined}
-            {:else}
-              {placeholder}
-            {/if}
-          </button>
-        {/if}
-      </slot>
-    </div>
-    <div
-      class="contents"
-      slot="contents"
-      class:is-range-picker={config.isRangePicker}
-    >
-      <div class="view">
-        <View viewContextKey={startContextKey} on:chosen={addDate} />
-        {#if config.isRangePicker}
-          <View viewContextKey={endContextKey} on:chosen={addDate} />
-        {/if}
-      </div>
-      <Toolbar {continueText} on:close={close} />
-    </div>
-  </Popover>
-</div>
-
 <div class="datepicker" style={styling.toWrapperStyle()}>
   <div>
     <div class="contents" class:is-range-picker={config.isRangePicker}>
@@ -172,7 +131,6 @@
           <View viewContextKey={endContextKey} on:chosen={addDate} />
         {/if}
       </div>
-      <!-- <Toolbar {continueText} on:close={close} /> -->
     </div>
   </div>
 </div>
