@@ -1,9 +1,17 @@
+html {
+  height: 100%;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   background:#eaedf2;
   color:#666;
   font-size:14px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

@@ -1,7 +1,7 @@
 <script>
-  import { onMount, createEventDispatcher, getContext } from 'svelte'
+  import { onMount, createEventDispatcher, getContext, tick } from 'svelte'
   import { contextKey } from './lib/context.js'
-  import { getTranslate, getDistanceToEdges } from './lib/positioning.js'
+  import { getPosition } from './lib/positioning.js'
   import { once } from './lib/event-handling.js'
 
   const { isOpen, isClosing, config, resetView } = getContext(contextKey)
@@ -16,6 +16,7 @@
   let translateX = 0
 
   export let trigger
+
   export function close () {
     isClosing.set(true)
     once(contentsAnimated, 'animationend', () => {
@@ -23,10 +24,6 @@
       isOpen.set(false)
       dispatch('closed')
     })
-  }
-
-  export function recentre () {
-    contentsWrapper.scrollIntoView()
   }
 
   function checkForFocusLoss (evt) {
@@ -51,16 +48,14 @@
     }
   })
 
-  const doOpen = async () => {
-    if (!$isOpen) { isOpen.set(true) }
-
-    const distance = await getDistanceToEdges(window, contentsWrapper, translateX, translateY)
-    const { x, y } = getTranslate(w, distance)
-    translateY = y
-    translateX = x
+  const doOpen = async e => {
     isOpen.set(true)
     resetView()
 
+    await tick()
+    const { top, left } = getPosition(window, e, config)
+    translateY = top
+    translateX = left
     dispatch('opened')
   }
 </script>
@@ -75,7 +70,7 @@
     class="contents-wrapper" 
     class:visible={$isOpen}
     class:shrink={$isClosing}
-    style="transform: translate(-50%,-50%) translate({translateX}px, {translateY}px)" 
+    style="top: {translateY}px; left: {translateX}px" 
     bind:this={contentsWrapper}>
     <div class="wrapper" bind:this={contentsAnimated}>
       <div class="contents-inner">
@@ -91,26 +86,10 @@
   }
 
   .contents-wrapper { 
-    transform: translate(-50%, -50%); 
-    position: absolute;
-    top: 50%; 
-    left: 50%; 
+    position: fixed;
     transition: none;
     z-index: 2;
     display: none;
-  }
-
-  .wrapper { 
-    background: #fff;
-    box-shadow: 0px 10px 26px rgba(0,0,0,0.4) ;
-    opacity: .8; 
-    padding-top: 0;
-    display: none;
-    animation: grow 200ms forwards cubic-bezier(.92,.09,.18,1.05);
-  }
-
-  .contents-inner { 
-    animation: fadeIn 400ms forwards;
   }
 
   .contents-wrapper.visible { 
@@ -125,6 +104,19 @@
 
   .contents-wrapper.shrink .wrapper { 
     animation: shrink 150ms forwards cubic-bezier(.92,.09,.18,1.05);
+  }
+
+  .wrapper { 
+    background: #fff;
+    box-shadow: 0px 10px 26px rgba(0,0,0,0.4) ;
+    opacity: .8; 
+    padding-top: 0;
+    display: none;
+    animation: grow 200ms forwards cubic-bezier(.92,.09,.18,1.05);
+  }
+
+  .contents-inner { 
+    animation: fadeIn 400ms forwards;
   }
 
   @keyframes grow { 

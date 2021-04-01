@@ -128,7 +128,7 @@
     bottom: 0; 
     background-color: #fff;
     transition: all 300ms; 
-    transform: scale(1.2); 
+    transform: scale(0.8);
     opacity: 0; 
     visibility: hidden;
     z-index: 2;
