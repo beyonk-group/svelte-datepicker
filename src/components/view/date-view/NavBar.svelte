@@ -109,10 +109,8 @@
     color: var(--month-year-text-color);
   }
 
-  @media (min-width: 600px) {
-    .heading-section {
-      padding: 24px 15px;
-    }
+  .heading-section {
+    padding: 12px 15px;
   }
 
   .label,
@@ -206,19 +204,20 @@
     -webkit-transform: rotate(135deg);
   }
 
-  @media (min-width: 600px) {
-    .arrow {
-      width: 18px;
-      height: 18px;
-    }
-    .control {
-      padding: 0 8px;
-    }
-    .heading-section { 
-      font-size: 20px;
-    }
-    .label {
-      margin-left: 5%;
-    }
+  .arrow {
+    width: 18px;
+    height: 18px;
+  }
+
+  .control {
+    padding: 0 8px;
+  }
+
+  .heading-section { 
+    font-size: 20px;
+  }
+
+  .label {
+    margin-left: 5%;
   }
 </style>

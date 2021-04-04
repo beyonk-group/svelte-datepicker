@@ -24,12 +24,7 @@
     align-items: center;
     background-color: var(--time-day-mode-background-color);
     transition: background 0.15s ease;
-  }
-
-  @media (min-height: 600px) {
-    .time-container {
-      min-height: 300px;
-    }
+    min-height: 100%;
   }
 
   .chosen-date {

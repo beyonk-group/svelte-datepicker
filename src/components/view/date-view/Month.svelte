@@ -53,20 +53,15 @@
     padding: 10px 0;
     margin-bottom: 5px;
     color: var(--legend-text-color);
+    display: grid;
   }
 
-  @media (min-width: 600px) {
-    .month-container {
-      display: flex;
-    }
+  .month-container {
+    display: flex;
+  }
 
-    .month-week {
-      width: 100%;
-    }
-    
-    .legend {
-      display: grid;
-    }
+  .month-week {
+    width: 100%;
   }
 
   .legend span {

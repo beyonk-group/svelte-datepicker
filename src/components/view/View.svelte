@@ -25,18 +25,13 @@
     user-select: none;
     width: 100%;
     padding-top: 0;
+    width: 340px;
+    height: 345px;
   }
   
   @media (min-width: 600px) {
     .calendar {
-      height: auto;
-      max-width: 100%;
-      width: 100%;
       display: inline-block;
-    }
-
-    .calendar.is-range-picker {
-      width: 50%;
     }
   }
 </style>

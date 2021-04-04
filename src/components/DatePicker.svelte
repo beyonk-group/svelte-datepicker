@@ -155,16 +155,7 @@
   .view {
     display: flex;
     flex-direction: column;
-  }
-
-  @media (min-width: 600px) {
-    .view {
-      flex-direction: row;
-    }
-
-    .contents.is-range-picker {
-      width: 680px;
-    }
+    align-items: center;
   }
 </style>
 

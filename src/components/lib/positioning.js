@@ -18,22 +18,22 @@ const dimensions = {
   content: {
     medium: {
       single: {
-        height: 415,
+        height: 410,
         width: 340
       },
       range: {
-        height: 415,
+        height: 410,
         width: 680
       }
     },
     small: {
       single: {
-        height: 330,
+        height: 410,
         width: 340
       },
       range: {
-        height: 614,
-        width: 320
+        height: 786,
+        width: 340
       }
     }
   }
