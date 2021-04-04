@@ -12,6 +12,7 @@
   let triggerContainer
   let contentsAnimated
   let contentsWrapper
+  let isFullscreen = false
   let translateY = 0
   let translateX = 0
 
@@ -53,9 +54,12 @@
     resetView()
 
     await tick()
-    const { top, left } = getPosition(window, e, config)
+    const { top, left, fullscreen } = getPosition(window, e, config)
+    isFullscreen = fullscreen
+
     translateY = top
     translateX = left
+
     dispatch('opened')
   }
 </script>
@@ -70,6 +74,7 @@
     class="contents-wrapper" 
     class:visible={$isOpen}
     class:shrink={$isClosing}
+    class:is-fullscreen={isFullscreen}
     style="top: {translateY}px; left: {translateX}px" 
     bind:this={contentsWrapper}>
     <div class="wrapper" bind:this={contentsAnimated}>
@@ -90,6 +95,13 @@
     transition: none;
     z-index: 2;
     display: none;
+  }
+
+  .contents-wrapper.is-fullscreen {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
   }
 
   .contents-wrapper.visible { 

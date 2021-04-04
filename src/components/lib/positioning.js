@@ -6,42 +6,55 @@ function sizes (w) {
   return {
     pageWidth: Math.min(w.document.body.scrollWidth, contentWidth),
     pageHeight: w.document.body.scrollHeight,
-    viewportHeight: w.innerHeight
+    viewportHeight: w.innerHeight,
+    viewportWidth: w.innerWidth
   }
 }
 
 const dimensions = {
-  medium: {
-    single: {
-      height: 415,
-      width: 340
-    },
-    range: {
-      height: 415,
-      width: 680
-    }
+  page: {
+    padding: 6
   },
-  small: {
-    single: {
-      height: 330,
-      width: 340
+  content: {
+    medium: {
+      single: {
+        height: 415,
+        width: 340
+      },
+      range: {
+        height: 415,
+        width: 680
+      }
     },
-    range: {
-      height: 614,
-      width: 320
+    small: {
+      single: {
+        height: 330,
+        width: 340
+      },
+      range: {
+        height: 614,
+        width: 320
+      }
     }
   }
 }
 
 function getPosition (w, e, config) {
   const { isRangePicker } = config
-  const { pageWidth, viewportHeight } = sizes(w)
+  const { pageWidth, viewportHeight, viewportWidth } = sizes(w)
 
   const display = pageWidth < 480 ? 'small' : 'medium'
   const mode = isRangePicker ? 'range' : 'single'
-  const { width, height } = dimensions[display][mode]
+  const { padding } = dimensions.page
+  const { width, height } = dimensions.content[display][mode]
 
-  const padding = 6
+  if (viewportHeight < (height + padding) || viewportWidth < (width + padding)) {
+    return {
+      fullscreen: true,
+      top: 0,
+      left: 0
+    }
+  }
 
   let left = Math.max(padding, e.pageX - (width / 2))
 

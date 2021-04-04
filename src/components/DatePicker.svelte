@@ -145,7 +145,8 @@
   }
 
   .contents {
-    width: 320px;
+    min-width: 320px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     background: var(--content-background);
