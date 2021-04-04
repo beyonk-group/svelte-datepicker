@@ -383,6 +383,14 @@
     left: -50px;
   }
 
+  .content {
+    display: flex;
+    flex: 1;
+  }
+
+  iframe {
+    height: 40vh;
+  }
 
   .custom-button {
     -webkit-appearance: none;
