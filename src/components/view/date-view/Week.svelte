@@ -37,6 +37,7 @@
         class:shake-date={$shouldShakeDate && day.date.isSame($shouldShakeDate, 'day')}
         class:disabled={!day.selectable}
         type="button"
+        aria-label={day.date.format('YYYY-MM-DD')}
         on:click|stopPropagation={() => dispatch('chosen', { date: day.date })}
       >
         {day.date.date()}
