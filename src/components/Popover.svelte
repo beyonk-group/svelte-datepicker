@@ -97,16 +97,16 @@
     display: none;
   }
 
-  .contents-wrapper.is-fullscreen {
+  .contents-wrapper.visible { 
+    display: block;
+  }
+
+  .contents-wrapper.visible.is-fullscreen {
     display: flex;
     width: 100vw;
     height: 100%;
     padding-bottom: 80px;
     overflow: scroll;
-  }
-
-  .contents-wrapper.visible { 
-    display: block;
   }
 
   .contents-wrapper.visible .wrapper { 
