@@ -29,9 +29,9 @@
     height: 345px;
   }
   
-  @media (min-width: 600px) {
+  /* @media (min-width: 600px) {
     .calendar {
       display: inline-block;
     }
-  }
+  } */
 </style>

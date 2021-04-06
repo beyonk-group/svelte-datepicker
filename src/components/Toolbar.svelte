@@ -38,7 +38,7 @@
     padding: 0;
     display: flex;
     flex: 1 0 auto;
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   .button {
@@ -49,12 +49,14 @@
     font-weight: 500;
     color: var(--time-confirm-button-text-color);
     background-color: var(--time-confirm-button-color);
+    max-width: 340px;
   }
 
   @media (min-width: 600px) {
     .toolbar {
       border-top: 1px solid var(--toolbar-border-color);
       padding: 6px;
+      justify-content: flex-end;
     }
 
     .button {

@@ -13,7 +13,8 @@ function sizes (w) {
 
 const dimensions = {
   page: {
-    padding: 6
+    padding: 6,
+    deadzone: 80
   },
   content: {
     medium: {
@@ -45,10 +46,10 @@ function getPosition (w, e, config) {
 
   const display = pageWidth < 480 ? 'small' : 'medium'
   const mode = isRangePicker ? 'range' : 'single'
-  const { padding } = dimensions.page
+  const { padding, deadzone } = dimensions.page
   const { width, height } = dimensions.content[display][mode]
 
-  if (viewportHeight < (height + padding) || viewportWidth < (width + padding)) {
+  if (viewportHeight < (height + padding + deadzone) || viewportWidth < (width + padding)) {
     return {
       fullscreen: true,
       top: 0,

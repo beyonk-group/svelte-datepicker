@@ -100,7 +100,8 @@
   .contents-wrapper.is-fullscreen {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+    padding-bottom: 80px;
     overflow: scroll;
   }
 
@@ -113,7 +114,7 @@
     transform: scale(1);
     display: block;
   }
-
+  
   .contents-wrapper.shrink .wrapper { 
     animation: shrink 150ms forwards cubic-bezier(.92,.09,.18,1.05);
   }

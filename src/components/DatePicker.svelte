@@ -157,6 +157,13 @@
     flex-direction: column;
     align-items: center;
   }
+
+  @media (min-width: 680px) {
+    .view {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
 </style>
 
 <div
