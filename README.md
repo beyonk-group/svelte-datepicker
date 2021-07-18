@@ -24,6 +24,23 @@ Roadmap:
 * Add code-samples to docs
 * Add legend for keyboard shortcuts [h for Help]
 
+## Svelte Kit Support
+
+Due to the way dayjs is packaged, the following configuration is required to get this working with SvelteKit:
+
+```js
+const config = {
+  kit: {
+    target: "#svelte",
+    vite: {
+      ssr: {
+        noExternal: [ 'dayjs' ],
+      }
+    }
+  }
+}
+```
+
 ## Usage
 
 * See [The Documentation](https://svelte-datepicker.vercel.app) which is a work in progress.
