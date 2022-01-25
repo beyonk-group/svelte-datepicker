@@ -11,7 +11,7 @@
     "test:unit": "uvu -r esm"
   },
   "dependencies": {
-    "dayjs": "^1.9.6",
+    "dayjs": "^1.10.7",
     "es6-object-assign": "^1.1.0",
     "svelte": "^3.24.0"
   },
