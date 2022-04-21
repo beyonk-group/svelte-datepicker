@@ -82,6 +82,7 @@
                 <nav>
                   <a href="/date-picker/with-time">With Time</a>
                   <a href="/date-picker/without-time">Without Time</a>
+                  <a href="/date-picker/without-time/with-date-restriction">With Date Restriction</a>
                   <a href="/date-picker/with-time/with-selected-date">With Selected Date</a>
                   <a href="/date-picker/with-time/with-minute-step">With Minute Step</a>
                   <a href="/date-picker/with-events">With Events</a>
@@ -97,6 +98,16 @@
                       <DatePicker format='ddd, DD MMM YYYY' />
                     </div>
                   </Route>
+                </Route>
+                <Route path="/with-date-restriction/*">
+                  <h2>With Date Restriction</h2>
+                  <p>Restrict date from the start of the year until today</p>
+                  <div class="demo">
+                    <DatePicker
+                      start={dayjs().startOf('year').toDate()}
+                      end={dayjs().endOf('day').toDate()}
+                    />
+                  </div>
                 </Route>
               </Route>
               <Route path="/with-time/*">
@@ -221,15 +232,15 @@
                   </Route>
                 </Route>
                 <Route path="/with-date-restriction/*">
-                  <h2>Without Date Restriction</h2>
-                  <p>Restrict date from tomorrow until a week later</p>
+                  <h2>With Date Restriction</h2>
+                  <p>Restrict date from the start of the year until today</p>
                   <Route path="/">
                     <div class="demo">
                       <DatePicker
                         format='ddd, DD MMM YYYY'
                         range={true}
-                        start={dayjs().add(1, 'day').toDate()}
-                        end={dayjs().add(1, 'day').add(1, 'week').toDate()}
+                        start={dayjs().startOf('year').toDate()}
+                        end={dayjs().endOf('day').toDate()}
                       />
                     </div>
                   </Route>
