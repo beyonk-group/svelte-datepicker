@@ -9,7 +9,7 @@
   import View from './view/View.svelte'
 
   export let range = false
-  export let defaultRange = [1, "month"]
+  export let defaultRange = [ 1, 'month' ]
   export let placeholder = 'Choose Date'
   export let format = 'DD / MM / YYYY'
   export let start = dayjs().subtract(1, 'year')
