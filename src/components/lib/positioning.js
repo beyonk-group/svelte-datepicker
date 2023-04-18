@@ -57,13 +57,13 @@ function getPosition (w, e, config) {
     }
   }
 
-  let left = Math.max(padding, e.pageX - (width / 2))
+  let left = Math.max(padding, e.clientX - (width / 2))
 
   if ((left + width) > pageWidth) {
     left = (pageWidth - width) - padding
   }
 
-  let top = Math.max(padding, e.pageY - (height / 2))
+  let top = Math.max(padding, e.clientY - (height / 2))
 
   const willExceedViewableArea = (top + height) > viewportHeight
   if (willExceedViewableArea) {
