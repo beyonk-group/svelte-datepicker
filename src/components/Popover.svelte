@@ -66,7 +66,7 @@
 
 <svelte:window bind:innerWidth={w} />
 <div class="sc-popover" bind:this={popover}>
-  <div class="trigger" on:click={doOpen} bind:this={triggerContainer}>
+  <div class="trigger" on:click={doOpen} on:keypress={e => e.key === 'Enter' && doOpen()} bind:this={triggerContainer}>
     <slot name="trigger">
     </slot>
   </div>

@@ -1,4 +1,4 @@
-<span class="chevron" class:bottom={!up} on:click></span>
+<span class="chevron" class:bottom={!up} on:click on:keypress></span>
   
 <script>
   export let up = true
