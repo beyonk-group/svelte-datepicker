@@ -40,11 +40,11 @@
     highlighted.set($displayedDate)
   }
 
-  function incrementMonth (direction) {
+ function increment(direction, entity) {
     if (direction === 1 && !canIncrementMonth) return
     if (direction === -1 && !canDecrementMonth) return
 
-    displayedDate.update(d => d.add(direction, 'months'))
+    displayedDate.update((d) => d.add(direction, entity))
     highlighted.set($displayedDate)
   }
 
@@ -66,7 +66,7 @@
       type="button"
       aria-label="Previous month"
       disabled={!canDecrementMonth}
-      on:click={() => incrementMonth(-1)}>
+      on:click={() => increment(-1, monthSelectorOpen ? "year" : "month")}>
       <i class="arrow left"></i>
     </button>
     <button type="button" class="label" on:click={toggleMonthSelectorOpen}>
@@ -76,7 +76,7 @@
       type="button"
       aria-label="Next month"
       disabled={!canIncrementMonth}
-      on:click={() => incrementMonth(1)}>
+      on:click={() => increment(1, monthSelectorOpen ? "year" : "month")}>
       <i class="arrow right"></i>
     </button>
   </div>
