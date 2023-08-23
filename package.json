@@ -1,7 +1,7 @@
 {
   "name": "@beyonk/svelte-datepicker",
   "svelte": "src/main.js",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "license": "MIT",
   "scripts": {
     "dev": "snowpack dev",
