@@ -10,6 +10,9 @@ on:
     branches:
       - '*'
 
+env:
+  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,8 +26,6 @@ jobs:
         with:
           version: 8
           run_install: true
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run lint
       - run: npm run test:unit
   
@@ -40,8 +41,6 @@ jobs:
         with:
           version: 8
           run_install: true
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Deploy docs
         run: |
           pnpm build
@@ -65,8 +64,6 @@ jobs:
         with:
           version: 8
           run_install: true
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Set publishing config
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
       - run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
