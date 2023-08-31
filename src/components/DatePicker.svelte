@@ -131,6 +131,16 @@
       }
     }
   }
+
+  /**
+   * Allow external sources to react to internal selections via event forwarding
+  */
+  $: {
+    if ($selectedStartDate) dispatch('updateStart', $selectedStartDate.toDate())
+  }
+  $: {
+    if ($selectedEndDate) dispatch('updateEnd', $selectedEndDate.toDate())
+  }
 </script>
 
 <style>
