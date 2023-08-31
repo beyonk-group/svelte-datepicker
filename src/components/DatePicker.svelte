@@ -116,6 +116,21 @@
       dispatch('change')
     }
   }
+
+  /**
+   * Allow external sources to update dates by binding to selected prop
+   * and updating with JS Date objects
+  */
+  $: {
+    if (config.isRangePicker) {
+      if (selected[0] instanceof Date) {
+        selectedStartDate.set(dayjs(selected[0]))
+      }
+      if (selected[1] instanceof Date) {
+        selectedEndDate.set(dayjs(selected[1]))
+      }
+    }
+  }
 </script>
 
 <style>
