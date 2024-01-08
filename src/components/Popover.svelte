@@ -93,7 +93,7 @@
   .contents-wrapper { 
     position: fixed;
     transition: none;
-    z-index: 2;
+    z-index: 99;
     display: none;
   }
 
